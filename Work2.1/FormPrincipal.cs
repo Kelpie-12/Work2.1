@@ -134,7 +134,7 @@ namespace Work2._1
 			if (UserLoginCache.Position == Positions.Manager)
 			{
 				btnChart.Enabled = false;
-				btnSetting.Enabled = false;
+				btnSetting.Enabled = false; 
 			}
 		}
 		private void LoadUserData()
