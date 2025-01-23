@@ -149,13 +149,23 @@ namespace Work2._1
 			labelEmail.Text = UserLoginCache.Email;
 			
 		}
+
+		private void btnHistory_Click(object sender, EventArgs e)
+		{
+			//форма с историей
+		}
+
+		private void btnCalendar_Click(object sender, EventArgs e)
+		{
+			OpenForm<FormCalendar>();
+			btnCalendar.BackColor = Color.FromArgb(12, 61, 92);
+		}
 		#endregion
 		//открывать новую форму с различными настройками
 		private void OpenForm<TForm>() where TForm : Form, new()
 		{
 			Form form;
-			form = panelForm.Controls.OfType<TForm>().FirstOrDefault();//Busca en la colecion el formulario
-																	   //si el formulario/instancia no existe
+			form = panelForm.Controls.OfType<TForm>().FirstOrDefault();
 			if (form == null)
 			{
 				form = new TForm();
@@ -176,7 +186,7 @@ namespace Work2._1
 		private void CloseForms(object sender, FormClosedEventArgs e)
 		{
 			if (Application.OpenForms["FormProfil"] == null)
-				btnProfil.BackColor = Color.FromArgb(4, 41, 68);
+				btnProfil.BackColor = Color.FromArgb(4,55, 95);
 		}
 	}
 }

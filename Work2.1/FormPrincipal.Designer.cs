@@ -224,6 +224,7 @@
 			this.btnCalendar.Text = "Календарь";
 			this.btnCalendar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.btnCalendar.UseVisualStyleBackColor = true;
+			this.btnCalendar.Click += new System.EventHandler(this.btnCalendar_Click);
 			// 
 			// btnHistory
 			// 
@@ -243,6 +244,7 @@
 			this.btnHistory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.btnHistory.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.btnHistory.UseVisualStyleBackColor = true;
+			this.btnHistory.Click += new System.EventHandler(this.btnHistory_Click);
 			// 
 			// btnProfil
 			// 
@@ -253,7 +255,7 @@
 			this.btnProfil.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnProfil.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnProfil.Image = ((System.Drawing.Image)(resources.GetObject("btnProfil.Image")));
-			this.btnProfil.Location = new System.Drawing.Point(0, 147);
+			this.btnProfil.Location = new System.Drawing.Point(3, 147);
 			this.btnProfil.Name = "btnProfil";
 			this.btnProfil.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.btnProfil.Size = new System.Drawing.Size(260, 50);

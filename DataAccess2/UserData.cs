@@ -71,7 +71,7 @@ namespace DataAccess2
 
 				}
 			}
-		}
+		}		
 		public DataTable GetClientManger()
 		{
 			using (var conn = GetConnection())
@@ -146,6 +146,26 @@ namespace DataAccess2
 			}
 		}
 
+		public void AddNewClient(string name, string last, string telefon, string manager)
+		{
+			using(var con=GetConnection())
+			{
+				con.Open();
+				using(var cmd = new SqlCommand())
+				{
+					cmd.Connection = con;
+					cmd.CommandText = " use ComopanyProgect; begin if not exists (select * from Client " +
+						"where FirstName=@name and LastName=@last) " +
+						"begin insert into Client (FirstName,LastName,Manager,TelNumber)" +
+						" values (@name,@last,@man,@tel) end end";
+					cmd.Parameters.AddWithValue("@name", name);
+					cmd.Parameters.AddWithValue("@last", last);
+					cmd.Parameters.AddWithValue("@man",manager);
+					cmd.Parameters.AddWithValue("@tel",telefon);
+					cmd.ExecuteNonQuery();
+				}
+			}
+		}
 		public void EditClient(int id, string name, string last, string telefon, string manager)
 		{
 			using (var conn = GetConnection())

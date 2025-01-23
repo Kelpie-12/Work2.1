@@ -28,5 +28,9 @@ namespace Domen2
 		{
 			userData.DeletClient(id);
 		}
+		public void AddNewClient(string name, string last, string man, string tel)
+		{
+			userData.AddNewClient(name, last, tel, man);
+		}
 	}
 }

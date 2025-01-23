@@ -2,8 +2,6 @@
 using System;
 using System.Windows.Forms;
 using Common.Cache;
-using System.Runtime.CompilerServices;
-using System.Linq;
 namespace Work2._1
 {
 	public partial class FormProfil : Form
@@ -113,12 +111,11 @@ namespace Work2._1
 
 		private void btnSaveClient_Click(object sender, EventArgs e)
 		{
-			if (addNewClient==true)
-			{ }
+			if (addNewClient == true)
+				clientModel.AddNewClient(tBoxCiientFName.Text, tbClientLast.Text, cBoxClientManager.SelectedValue.ToString(), tbClientTelNumber.Text);
 			else
 				clientModel.EditClient(ClientCache.IdClient, tBoxCiientFName.Text, tbClientLast.Text, cBoxClientManager.SelectedValue.ToString(), tbClientTelNumber.Text);
-
-			
+			addNewClient = false;
 			btnSaveClient.Enabled = false;
 			btnEditClient.Enabled = btnSearch.Enabled = true;
 			tBoxCiientFName.ReadOnly = tbClientLast.ReadOnly = tbClientTelNumber.ReadOnly = true;
@@ -137,5 +134,18 @@ namespace Work2._1
 				lbClient.Text = "Поиск клента";
 			}
 		}
+
+		private void tbClientTelNumber_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (e.KeyChar >= '0' && e.KeyChar <= '9' || (e.KeyChar == '+'))
+				if (tbClientTelNumber.Text.Length >= 0 && tbClientTelNumber.Text.Length <= 11)
+					return;
+			if (Char.IsControl(e.KeyChar))
+				if (e.KeyChar == (char)Keys.Back)
+					return;
+			e.Handled = true;
+		}
+
+		
 	}
 }
