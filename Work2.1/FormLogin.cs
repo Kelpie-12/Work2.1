@@ -93,7 +93,7 @@ namespace Work2._1
 					if (validLogin == true)
 					{
 						FormPrincipal mainMenu = new FormPrincipal();
-						MessageBox.Show("Welcome\n"+UserLoginCache.FirstName+" "+UserLoginCache.LastName);
+					//	MessageBox.Show("Welcome\n"+UserLoginCache.FirstName+" "+UserLoginCache.LastName);
 						mainMenu.Show();
 						mainMenu.FormClosed += Logout;
 						this.Hide();

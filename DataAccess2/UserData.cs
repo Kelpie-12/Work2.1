@@ -72,6 +72,38 @@ namespace DataAccess2
 				}
 			}
 		}
+		public DataTable GetClientManger()
+		{
+			using (var conn = GetConnection())
+			{
+				conn.Open();
+				using (var cmd = new SqlCommand())
+				{
+					cmd.Connection = conn;
+					cmd.CommandText = "use ComopanyProgect; select * from Manager ";
+					cmd.CommandType = System.Data.CommandType.Text;
+					SqlDataReader reader = cmd.ExecuteReader();
+
+					DataTable table = new DataTable();
+					if (reader.HasRows)
+					{
+						for (int i = 0; i < reader.FieldCount; i++)
+							table.Columns.Add(reader.GetName(i));
+						while (reader.Read())
+						{
+							DataRow row = table.NewRow();
+							for (int i = 0; i < reader.FieldCount; i++)
+								row[i] = reader[i];
+							table.Rows.Add(row);
+						}
+						return table;
+					}
+					else
+						return table;
+
+				}
+			}
+		}
 
 		public DataTable GetClient(string search)
 		{
@@ -82,7 +114,7 @@ namespace DataAccess2
 			{
 				conn.Open();
 				using (var cmd = new SqlCommand())
-				{					
+				{
 					cmd.Connection = conn;
 					cmd.CommandText = "use ComopanyProgect; select Client.Id as [№],Client.FirstName as[Имя], Client.LastName as [Фамилия], Manager.LastName as [Менеджер], Client.TelNumber as [Телефон] from Client,Manager " +
 						"where Client.Manager=Manager.Id and ((Client.FirstName like @name +'%')or (Client.LastName like  @last + '%') or (Client.Id =  @id)) ";
@@ -110,6 +142,41 @@ namespace DataAccess2
 					//else
 					//	return table;
 
+				}
+			}
+		}
+
+		public void EditClient(int id, string name, string last, string telefon, string manager)
+		{
+			using (var conn = GetConnection())
+			{
+				conn.Open();
+				using (var cmd = new SqlCommand())
+				{
+					cmd.Connection = conn;
+					cmd.CommandText = "use ComopanyProgect; update Client set FirstName = @name, LastName= @last, Manager=@man,TelNumber=@tel where Id=@id";
+					cmd.Parameters.AddWithValue("@id", id);
+					cmd.Parameters.AddWithValue("@name", name);
+					cmd.Parameters.AddWithValue("@last", last);
+					cmd.Parameters.AddWithValue("@man", manager);
+					cmd.Parameters.AddWithValue("@tel", telefon);
+					cmd.CommandType = System.Data.CommandType.Text;
+					SqlDataReader reader = cmd.ExecuteReader();
+				}
+			}
+		}
+		public void DeletClient(int id)
+		{
+			using (var conn = GetConnection())
+			{
+				conn.Open();
+				using (var cmd = new SqlCommand())
+				{
+					cmd.Connection = conn;
+					cmd.CommandText = "use ComopanyProgect; delete from Client where Id=@id ";
+					cmd.CommandType = System.Data.CommandType.Text;
+					cmd.Parameters.AddWithValue("@id", id);
+					SqlDataReader reader = cmd.ExecuteReader();
 				}
 			}
 		}

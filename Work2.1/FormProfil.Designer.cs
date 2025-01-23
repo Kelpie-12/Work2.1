@@ -35,11 +35,10 @@
 			this.dataGridViewClient = new System.Windows.Forms.DataGridView();
 			this.tbSearch = new System.Windows.Forms.TextBox();
 			this.tPageProfil = new System.Windows.Forms.TabPage();
-			this.textBox3 = new System.Windows.Forms.TextBox();
+			this.tbClientTelNumber = new System.Windows.Forms.TextBox();
 			this.label4 = new System.Windows.Forms.Label();
-			this.textBox2 = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
-			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.tbClientLast = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.tBoxCiientFName = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
@@ -53,6 +52,8 @@
 			this.btnEditClient = new System.Windows.Forms.Button();
 			this.btnAddNewClient = new System.Windows.Forms.Button();
 			this.btnSearch = new System.Windows.Forms.Button();
+			this.btnSaveClient = new System.Windows.Forms.Button();
+			this.cBoxClientManager = new System.Windows.Forms.ComboBox();
 			this.tabControlProfil.SuspendLayout();
 			this.tPageSearch.SuspendLayout();
 			this.panel4.SuspendLayout();
@@ -102,9 +103,13 @@
 			this.dataGridViewClient.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.dataGridViewClient.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dataGridViewClient.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridViewClient.Location = new System.Drawing.Point(22, 69);
+			this.dataGridViewClient.MultiSelect = false;
 			this.dataGridViewClient.Name = "dataGridViewClient";
+			this.dataGridViewClient.ReadOnly = true;
+			this.dataGridViewClient.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dataGridViewClient.Size = new System.Drawing.Size(661, 327);
 			this.dataGridViewClient.TabIndex = 2;
 			// 
@@ -121,11 +126,11 @@
 			// 
 			// tPageProfil
 			// 
-			this.tPageProfil.Controls.Add(this.textBox3);
+			this.tPageProfil.Controls.Add(this.cBoxClientManager);
+			this.tPageProfil.Controls.Add(this.tbClientTelNumber);
 			this.tPageProfil.Controls.Add(this.label4);
-			this.tPageProfil.Controls.Add(this.textBox2);
 			this.tPageProfil.Controls.Add(this.label3);
-			this.tPageProfil.Controls.Add(this.textBox1);
+			this.tPageProfil.Controls.Add(this.tbClientLast);
 			this.tPageProfil.Controls.Add(this.label2);
 			this.tPageProfil.Controls.Add(this.tBoxCiientFName);
 			this.tPageProfil.Controls.Add(this.label1);
@@ -137,14 +142,14 @@
 			this.tPageProfil.TabIndex = 1;
 			this.tPageProfil.UseVisualStyleBackColor = true;
 			// 
-			// textBox3
+			// tbClientTelNumber
 			// 
-			this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.textBox3.Location = new System.Drawing.Point(146, 202);
-			this.textBox3.Name = "textBox3";
-			this.textBox3.ReadOnly = true;
-			this.textBox3.Size = new System.Drawing.Size(390, 29);
-			this.textBox3.TabIndex = 7;
+			this.tbClientTelNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.tbClientTelNumber.Location = new System.Drawing.Point(146, 202);
+			this.tbClientTelNumber.Name = "tbClientTelNumber";
+			this.tbClientTelNumber.ReadOnly = true;
+			this.tbClientTelNumber.Size = new System.Drawing.Size(390, 29);
+			this.tbClientTelNumber.TabIndex = 7;
 			// 
 			// label4
 			// 
@@ -156,15 +161,6 @@
 			this.label4.TabIndex = 6;
 			this.label4.Text = "Телефон";
 			// 
-			// textBox2
-			// 
-			this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.textBox2.Location = new System.Drawing.Point(146, 149);
-			this.textBox2.Name = "textBox2";
-			this.textBox2.ReadOnly = true;
-			this.textBox2.Size = new System.Drawing.Size(390, 29);
-			this.textBox2.TabIndex = 5;
-			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
@@ -175,14 +171,14 @@
 			this.label3.TabIndex = 4;
 			this.label3.Text = "Менеджер";
 			// 
-			// textBox1
+			// tbClientLast
 			// 
-			this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.textBox1.Location = new System.Drawing.Point(146, 96);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.ReadOnly = true;
-			this.textBox1.Size = new System.Drawing.Size(390, 29);
-			this.textBox1.TabIndex = 3;
+			this.tbClientLast.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.tbClientLast.Location = new System.Drawing.Point(146, 96);
+			this.tbClientLast.Name = "tbClientLast";
+			this.tbClientLast.ReadOnly = true;
+			this.tbClientLast.Size = new System.Drawing.Size(390, 29);
+			this.tbClientLast.TabIndex = 3;
 			// 
 			// label2
 			// 
@@ -260,6 +256,7 @@
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(55)))), ((int)(((byte)(95)))));
+			this.panel1.Controls.Add(this.btnSaveClient);
 			this.panel1.Controls.Add(this.btnSelectClient);
 			this.panel1.Controls.Add(this.btnDeleteClient);
 			this.panel1.Controls.Add(this.btnEditClient);
@@ -280,7 +277,7 @@
 			this.btnSelectClient.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnSelectClient.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnSelectClient.Image = ((System.Drawing.Image)(resources.GetObject("btnSelectClient.Image")));
-			this.btnSelectClient.Location = new System.Drawing.Point(6, 74);
+			this.btnSelectClient.Location = new System.Drawing.Point(3, 67);
 			this.btnSelectClient.Name = "btnSelectClient";
 			this.btnSelectClient.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.btnSelectClient.Size = new System.Drawing.Size(150, 60);
@@ -289,6 +286,7 @@
 			this.btnSelectClient.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.btnSelectClient.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.btnSelectClient.UseVisualStyleBackColor = true;
+			this.btnSelectClient.Click += new System.EventHandler(this.btnSelectClient_Click);
 			// 
 			// btnDeleteClient
 			// 
@@ -300,7 +298,7 @@
 			this.btnDeleteClient.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnDeleteClient.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnDeleteClient.Image = ((System.Drawing.Image)(resources.GetObject("btnDeleteClient.Image")));
-			this.btnDeleteClient.Location = new System.Drawing.Point(6, 272);
+			this.btnDeleteClient.Location = new System.Drawing.Point(-2, 318);
 			this.btnDeleteClient.Name = "btnDeleteClient";
 			this.btnDeleteClient.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.btnDeleteClient.Size = new System.Drawing.Size(150, 60);
@@ -309,6 +307,7 @@
 			this.btnDeleteClient.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.btnDeleteClient.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.btnDeleteClient.UseVisualStyleBackColor = true;
+			this.btnDeleteClient.Click += new System.EventHandler(this.btnDeleteClient_Click);
 			// 
 			// btnEditClient
 			// 
@@ -320,7 +319,7 @@
 			this.btnEditClient.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnEditClient.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnEditClient.Image = ((System.Drawing.Image)(resources.GetObject("btnEditClient.Image")));
-			this.btnEditClient.Location = new System.Drawing.Point(2, 206);
+			this.btnEditClient.Location = new System.Drawing.Point(3, 252);
 			this.btnEditClient.Name = "btnEditClient";
 			this.btnEditClient.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.btnEditClient.Size = new System.Drawing.Size(150, 60);
@@ -329,6 +328,7 @@
 			this.btnEditClient.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.btnEditClient.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.btnEditClient.UseVisualStyleBackColor = true;
+			this.btnEditClient.Click += new System.EventHandler(this.btnEditClient_Click);
 			// 
 			// btnAddNewClient
 			// 
@@ -339,7 +339,7 @@
 			this.btnAddNewClient.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnAddNewClient.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnAddNewClient.Image = ((System.Drawing.Image)(resources.GetObject("btnAddNewClient.Image")));
-			this.btnAddNewClient.Location = new System.Drawing.Point(3, 140);
+			this.btnAddNewClient.Location = new System.Drawing.Point(3, 124);
 			this.btnAddNewClient.Name = "btnAddNewClient";
 			this.btnAddNewClient.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.btnAddNewClient.Size = new System.Drawing.Size(150, 60);
@@ -348,9 +348,11 @@
 			this.btnAddNewClient.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.btnAddNewClient.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.btnAddNewClient.UseVisualStyleBackColor = true;
+			this.btnAddNewClient.Click += new System.EventHandler(this.btnAddNewClient_Click);
 			// 
 			// btnSearch
 			// 
+			this.btnSearch.Enabled = false;
 			this.btnSearch.FlatAppearance.BorderSize = 0;
 			this.btnSearch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(50)))), ((int)(((byte)(70)))));
 			this.btnSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(61)))), ((int)(((byte)(92)))));
@@ -368,6 +370,36 @@
 			this.btnSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.btnSearch.UseVisualStyleBackColor = true;
 			this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+			// 
+			// btnSaveClient
+			// 
+			this.btnSaveClient.Enabled = false;
+			this.btnSaveClient.FlatAppearance.BorderSize = 0;
+			this.btnSaveClient.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(50)))), ((int)(((byte)(70)))));
+			this.btnSaveClient.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(61)))), ((int)(((byte)(92)))));
+			this.btnSaveClient.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnSaveClient.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.btnSaveClient.ForeColor = System.Drawing.SystemColors.Info;
+			this.btnSaveClient.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveClient.Image")));
+			this.btnSaveClient.Location = new System.Drawing.Point(2, 190);
+			this.btnSaveClient.Name = "btnSaveClient";
+			this.btnSaveClient.RightToLeft = System.Windows.Forms.RightToLeft.No;
+			this.btnSaveClient.Size = new System.Drawing.Size(150, 60);
+			this.btnSaveClient.TabIndex = 7;
+			this.btnSaveClient.Text = "Сохранить";
+			this.btnSaveClient.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.btnSaveClient.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.btnSaveClient.UseVisualStyleBackColor = true;
+			this.btnSaveClient.Click += new System.EventHandler(this.btnSaveClient_Click);
+			// 
+			// cBoxClientManager
+			// 
+			this.cBoxClientManager.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cBoxClientManager.FormattingEnabled = true;
+			this.cBoxClientManager.Location = new System.Drawing.Point(146, 152);
+			this.cBoxClientManager.Name = "cBoxClientManager";
+			this.cBoxClientManager.Size = new System.Drawing.Size(390, 32);
+			this.cBoxClientManager.TabIndex = 8;
 			// 
 			// FormProfil
 			// 
@@ -413,13 +445,14 @@
 		private System.Windows.Forms.Button btnAddNewClient;
 		private System.Windows.Forms.Button btnSearch;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox textBox3;
+		private System.Windows.Forms.TextBox tbClientTelNumber;
 		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.TextBox textBox2;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.TextBox tbClientLast;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.TextBox tBoxCiientFName;
 		private System.Windows.Forms.PictureBox pBoxClose;
+		private System.Windows.Forms.Button btnSaveClient;
+		private System.Windows.Forms.ComboBox cBoxClientManager;
 	}
 }

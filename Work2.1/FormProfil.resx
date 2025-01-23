@@ -128,6 +128,16 @@
         RU5ErkJggg==
 </value>
   </data>
+  <data name="btnSaveClient.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAABGdBTUEAALGPC/xhBQAAAPNJREFUSEvd
+        lesRgjAQhCnBEiyBkijBDrQDS7IELcEOtIO4e17AREgW8IfDN7ND7rkMA9psjxDCCVrDA2p93TjvvrDz
+        0GI/VkErb/AGPaFpIxSTpXmcgzIXkgNEE6qDpo1QmGtC4nKT56eNkPyJCcHZjDwcQHKJyQX6MiEs+nEg
+        T442fYByXN7Gs5cMxJLJHTpDR0FXqPNRA7Fksof6R1FRYkCQq5us5X9MEPIxzGHZ2wX6n5kS7GOzh0Ye
+        G1JTAWleaiogzUtNBaR5qamANC81FZDmYzK/quRz8ZrAJFj0z0g++7lndB65uR9fjeTj3AJN8wLZjJ20
+        lMtIWQAAAABJRU5ErkJggg==
+</value>
+  </data>
   <data name="btnSelectClient.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAABGdBTUEAALGPC/xhBQAAAQlJREFUSEvt
