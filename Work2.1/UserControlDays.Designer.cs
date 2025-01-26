@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.lbDays = new System.Windows.Forms.Label();
+			this.lbEvent = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// lbDays
@@ -40,10 +41,21 @@
 			this.lbDays.Size = new System.Drawing.Size(0, 24);
 			this.lbDays.TabIndex = 0;
 			// 
+			// lbEvent
+			// 
+			this.lbEvent.AutoSize = true;
+			this.lbEvent.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.lbEvent.Location = new System.Drawing.Point(19, 44);
+			this.lbEvent.Name = "lbEvent";
+			this.lbEvent.Size = new System.Drawing.Size(56, 24);
+			this.lbEvent.TabIndex = 1;
+			this.lbEvent.Text = "event";
+			// 
 			// UserControlDays
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.lbEvent);
 			this.Controls.Add(this.lbDays);
 			this.Name = "UserControlDays";
 			this.Size = new System.Drawing.Size(105, 68);
@@ -55,5 +67,6 @@
 		#endregion
 
 		private System.Windows.Forms.Label lbDays;
+		private System.Windows.Forms.Label lbEvent;
 	}
 }

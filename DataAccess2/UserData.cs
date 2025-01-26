@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
+using System.Runtime.Remoting;
+using System.Xml.Linq;
 using Common.Cache;
 namespace DataAccess2
 {
@@ -39,7 +42,6 @@ namespace DataAccess2
 				}
 			}
 		}
-
 		public DataTable GetAllClient()
 		{
 			using (var conn = GetConnection())
@@ -72,7 +74,7 @@ namespace DataAccess2
 				}
 			}
 		}		
-		public DataTable GetClientManger()
+		public DataTable GetClientManger()//получить менеджеров
 		{
 			using (var conn = GetConnection())
 			{
@@ -80,10 +82,9 @@ namespace DataAccess2
 				using (var cmd = new SqlCommand())
 				{
 					cmd.Connection = conn;
-					cmd.CommandText = "use ComopanyProgect; select * from Manager ";
+					cmd.CommandText = "use ComopanyProgect; select Id as [№],FirstName as [Имя], Manager.LastName as [Фамилия] from Manager ";
 					cmd.CommandType = System.Data.CommandType.Text;
 					SqlDataReader reader = cmd.ExecuteReader();
-
 					DataTable table = new DataTable();
 					if (reader.HasRows)
 					{
@@ -104,7 +105,46 @@ namespace DataAccess2
 				}
 			}
 		}
+		public DataTable GetManagerByValue(string search)
+		{
+			int Id = int.TryParse(search, out _) ? Convert.ToInt32(search) : 0;
+			string LastName = search;
+			string FirstName = search;
+			using (var conn = GetConnection())
+			{
+				conn.Open();
+				using (var cmd = new SqlCommand())
+				{
+					cmd.Connection = conn;
+					cmd.CommandText = "use ComopanyProgect; select Id as [№],FirstName as [Имя], Manager.LastName as [Фамилия] from Manager " +
+						"where ((Manager.FirstName like @name +'%')or (Manager.LastName like  @last + '%') or (Manager.Id =  @id)) ";
+					cmd.Parameters.Add("@id", SqlDbType.Int).Value = Id;
+					cmd.Parameters.Add("@name", SqlDbType.NVarChar, 150).Value = FirstName;
+					cmd.Parameters.Add("@last", SqlDbType.NVarChar, 150).Value = LastName;
+					cmd.CommandType = System.Data.CommandType.Text;
+					SqlDataReader reader = cmd.ExecuteReader();
+					DataTable table = new DataTable();
+					if (reader.HasRows)
+					{
+						for (int i = 0; i < reader.FieldCount; i++)
+							table.Columns.Add(reader.GetName(i));
+						while (reader.Read())
+						{
 
+							DataRow row = table.NewRow();
+							for (int i = 0; i < reader.FieldCount; i++)
+								row[i] = reader[i];
+							table.Rows.Add(row);
+
+						}
+					}
+					return table;
+					//else
+					//	return table;
+
+				}
+			}
+		}
 		public DataTable GetClient(string search)
 		{
 			int Id = int.TryParse(search, out _) ? Convert.ToInt32(search) : 0;
@@ -145,7 +185,6 @@ namespace DataAccess2
 				}
 			}
 		}
-
 		public void AddNewClient(string name, string last, string telefon, string manager)
 		{
 			using(var con=GetConnection())
@@ -197,6 +236,143 @@ namespace DataAccess2
 					cmd.CommandType = System.Data.CommandType.Text;
 					cmd.Parameters.AddWithValue("@id", id);
 					SqlDataReader reader = cmd.ExecuteReader();
+				}
+			}
+		}
+		public void AddNewApp(int man, int client, int obj, DateTime date, DateTime time)
+		{
+			using (var con = GetConnection())
+			{
+				con.Open();
+				using (var cmd = new SqlCommand())
+				{
+					cmd.Connection = con;
+					cmd.CommandText = " use ComopanyProgect; begin if not exists (select * from Appointments " +
+						"where ManagerId=@manId and ClientId=@clientId) " +
+						"begin insert into Appointments (ManagerId,ClientId,Date,Time,ObjectId)" +
+						" values (@manId,@clientId,@date,@time,@objId) end end";
+					cmd.Parameters.AddWithValue("@manId", man);
+					cmd.Parameters.AddWithValue("@clientId", client);
+					cmd.Parameters.AddWithValue("@objId", obj);
+					cmd.Parameters.AddWithValue("@date", date);
+					cmd.Parameters.AddWithValue("@time", time);
+
+					cmd.ExecuteNonQuery();
+				}
+			}
+		}
+		public DataTable GetClientForManager(int man)
+		{
+			using (var conn = GetConnection())
+			{
+				conn.Open();
+				using (var cmd = new SqlCommand())
+				{
+					cmd.Connection = conn;
+					cmd.CommandText = "use ComopanyProgect; select  Client.LastName,Client.Id from Client,Manager where Client.Manager=Manager.Id and Manager.Id=@id";
+					cmd.Parameters.AddWithValue("@id", man);
+					cmd.CommandType = System.Data.CommandType.Text;
+					SqlDataReader reader = cmd.ExecuteReader();
+
+					DataTable table = new DataTable();
+					if (reader.HasRows)
+					{
+						for (int i = 0; i < reader.FieldCount; i++)
+							table.Columns.Add(reader.GetName(i));
+						while (reader.Read())
+						{
+							DataRow row = table.NewRow();
+							for (int i = 0; i < reader.FieldCount; i++)
+								row[i] = reader[i];
+							table.Rows.Add(row);
+						}
+						return table;
+					}
+					else
+						return table;
+
+				}
+			}			
+		}
+	
+		public DataTable GetAllObject()
+		{
+			using (var conn = GetConnection())
+			{
+				conn.Open();
+				using (var cmd = new SqlCommand())
+				{
+					cmd.Connection = conn; 
+					cmd.CommandText = "use ComopanyProgect; select [Objects].Id as [№],[Objects].Photo as [Фотo], " +
+						" Manager.LastName as [Менеджер], [Objects].[Text] as [Описание]," +
+						" [Objects].AddressCiti as [Город],[Objects].AddressStreet as [Улица]," +
+						" [Objects].AddressNumberHouse as [Дом]," +
+						" [Objects].AdressNumberFlat as [Квартира] " +
+						" from Manager,[Objects] where [Objects].ManagerId=Manager.Id ; ";
+					cmd.CommandType = System.Data.CommandType.Text;
+					SqlDataReader reader = cmd.ExecuteReader();
+
+					DataTable table = new DataTable();
+					if (reader.HasRows)
+					{
+						for (int i = 0; i < reader.FieldCount; i++)
+							table.Columns.Add(reader.GetName(i));
+						while (reader.Read())
+						{
+							DataRow row = table.NewRow();
+							for (int i = 0; i < reader.FieldCount; i++)
+								row[i] = reader[i];
+							table.Rows.Add(row);
+						}
+						return table;
+					}
+					else
+						return table;
+
+				}
+			}
+		}
+		public DataTable GetObjectByValue(string search)
+		{
+			int Id = int.TryParse(search, out _) ? Convert.ToInt32(search) : 0;
+			string citi = search;
+			string street = search;
+			using (var conn = GetConnection())
+			{
+				conn.Open();
+				using (var cmd = new SqlCommand())
+				{
+					cmd.Connection = conn;
+					cmd.CommandText = "use ComopanyProgect; select [Objects].Id as [№],[Objects].Photo as [Фотo], " +
+						" Manager.LastName as [Менеджер], [Objects].[Text] as [Описание]," +
+						" [Objects].AddressCiti as [Город],[Objects].AddressStreet as [Улица]," +
+						" [Objects].AddressNumberHouse as [Дом]," +
+						" [Objects].AdressNumberFlat as [Квартира] " +
+						" from Manager,[Objects] where [Objects].ManagerId=Manager.Id and" +
+						" (([Objects].AddressCiti like @citi +'%')or ([Objects].AddressStreet like @street +'%') or ([Objects].Id like @Id +'%')); ";
+					cmd.Parameters.AddWithValue("@citi", citi);
+					cmd.Parameters.AddWithValue("@street", street);
+					cmd.Parameters.AddWithValue("@Id", Id);
+					cmd.CommandType = System.Data.CommandType.Text;
+					SqlDataReader reader = cmd.ExecuteReader();
+
+					DataTable table = new DataTable();
+					if (reader.HasRows)
+					{
+						for (int i = 0; i < reader.FieldCount; i++)
+							table.Columns.Add(reader.GetName(i));
+						while (reader.Read())
+						{
+							DataRow row = table.NewRow();
+							for (int i = 0; i < reader.FieldCount; i++)
+								row[i] = reader[i];
+							table.Rows.Add(row);
+						}
+						return table;
+					}
+					else
+						return table;
+
 				}
 			}
 		}

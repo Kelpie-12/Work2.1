@@ -49,6 +49,7 @@
 			this.pBoxMinimazed = new System.Windows.Forms.PictureBox();
 			this.pBoxMaximazed = new System.Windows.Forms.PictureBox();
 			this.pBoxClose = new System.Windows.Forms.PictureBox();
+			this.btnObjects = new System.Windows.Forms.Button();
 			this.panelConnector.SuspendLayout();
 			this.panelMenu.SuspendLayout();
 			this.panel1.SuspendLayout();
@@ -85,6 +86,7 @@
 			// panelMenu
 			// 
 			this.panelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(55)))), ((int)(((byte)(95)))));
+			this.panelMenu.Controls.Add(this.btnObjects);
 			this.panelMenu.Controls.Add(this.panel1);
 			this.panelMenu.Controls.Add(this.btnLogout);
 			this.panelMenu.Controls.Add(this.btnChart);
@@ -165,9 +167,9 @@
 			this.btnLogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnLogout.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnLogout.Image = ((System.Drawing.Image)(resources.GetObject("btnLogout.Image")));
-			this.btnLogout.Location = new System.Drawing.Point(-17, 497);
+			this.btnLogout.Location = new System.Drawing.Point(-5, 497);
 			this.btnLogout.Name = "btnLogout";
-			this.btnLogout.Size = new System.Drawing.Size(278, 51);
+			this.btnLogout.Size = new System.Drawing.Size(260, 51);
 			this.btnLogout.TabIndex = 5;
 			this.btnLogout.Text = "Выйти из профиля";
 			this.btnLogout.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -183,7 +185,7 @@
 			this.btnChart.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnChart.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnChart.Image = ((System.Drawing.Image)(resources.GetObject("btnChart.Image")));
-			this.btnChart.Location = new System.Drawing.Point(0, 372);
+			this.btnChart.Location = new System.Drawing.Point(-5, 425);
 			this.btnChart.Name = "btnChart";
 			this.btnChart.Size = new System.Drawing.Size(260, 51);
 			this.btnChart.TabIndex = 4;
@@ -200,7 +202,7 @@
 			this.btnSetting.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnSetting.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnSetting.Image = ((System.Drawing.Image)(resources.GetObject("btnSetting.Image")));
-			this.btnSetting.Location = new System.Drawing.Point(0, 315);
+			this.btnSetting.Location = new System.Drawing.Point(-5, 368);
 			this.btnSetting.Name = "btnSetting";
 			this.btnSetting.Size = new System.Drawing.Size(260, 51);
 			this.btnSetting.TabIndex = 3;
@@ -217,7 +219,7 @@
 			this.btnCalendar.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnCalendar.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnCalendar.Image = ((System.Drawing.Image)(resources.GetObject("btnCalendar.Image")));
-			this.btnCalendar.Location = new System.Drawing.Point(1, 261);
+			this.btnCalendar.Location = new System.Drawing.Point(-2, 261);
 			this.btnCalendar.Name = "btnCalendar";
 			this.btnCalendar.Size = new System.Drawing.Size(260, 51);
 			this.btnCalendar.TabIndex = 2;
@@ -235,7 +237,7 @@
 			this.btnHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnHistory.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnHistory.Image = ((System.Drawing.Image)(resources.GetObject("btnHistory.Image")));
-			this.btnHistory.Location = new System.Drawing.Point(0, 203);
+			this.btnHistory.Location = new System.Drawing.Point(-5, 203);
 			this.btnHistory.Name = "btnHistory";
 			this.btnHistory.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.btnHistory.Size = new System.Drawing.Size(260, 51);
@@ -255,7 +257,7 @@
 			this.btnProfil.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnProfil.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnProfil.Image = ((System.Drawing.Image)(resources.GetObject("btnProfil.Image")));
-			this.btnProfil.Location = new System.Drawing.Point(3, 147);
+			this.btnProfil.Location = new System.Drawing.Point(-5, 147);
 			this.btnProfil.Name = "btnProfil";
 			this.btnProfil.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.btnProfil.Size = new System.Drawing.Size(260, 50);
@@ -345,6 +347,23 @@
 			this.pBoxClose.TabStop = false;
 			this.pBoxClose.Click += new System.EventHandler(this.pBoxClose_Click);
 			// 
+			// btnObjects
+			// 
+			this.btnObjects.FlatAppearance.BorderSize = 0;
+			this.btnObjects.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(50)))), ((int)(((byte)(70)))));
+			this.btnObjects.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(61)))), ((int)(((byte)(92)))));
+			this.btnObjects.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnObjects.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.btnObjects.ForeColor = System.Drawing.SystemColors.Info;
+			this.btnObjects.Image = ((System.Drawing.Image)(resources.GetObject("btnObjects.Image")));
+			this.btnObjects.Location = new System.Drawing.Point(-5, 311);
+			this.btnObjects.Name = "btnObjects";
+			this.btnObjects.Size = new System.Drawing.Size(260, 51);
+			this.btnObjects.TabIndex = 6;
+			this.btnObjects.Text = "Объекты";
+			this.btnObjects.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.btnObjects.UseVisualStyleBackColor = true;
+			// 
 			// FormPrincipal
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -394,6 +413,7 @@
 		private System.Windows.Forms.Label labelLogin;
 		private System.Windows.Forms.Label labelPosition;
 		private System.Windows.Forms.Label labelMenu;
+		private System.Windows.Forms.Button btnObjects;
 	}
 }
 
