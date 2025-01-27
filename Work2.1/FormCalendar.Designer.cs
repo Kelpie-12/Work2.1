@@ -29,9 +29,10 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCalendar));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.pBoxClose = new System.Windows.Forms.PictureBox();
 			this.lbDate = new System.Windows.Forms.Label();
@@ -79,6 +80,9 @@
 			this.tabPageSelectObj = new System.Windows.Forms.TabPage();
 			this.tbObjSearch = new System.Windows.Forms.TextBox();
 			this.dGWOS = new System.Windows.Forms.DataGridView();
+			this.tabPageAppInDay = new System.Windows.Forms.TabPage();
+			this.dGVA = new System.Windows.Forms.DataGridView();
+			this.tbSearchApp = new System.Windows.Forms.TextBox();
 			this.panel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pBoxClose)).BeginInit();
 			this.panel1.SuspendLayout();
@@ -94,6 +98,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.dGVCS)).BeginInit();
 			this.tabPageSelectObj.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dGWOS)).BeginInit();
+			this.tabPageAppInDay.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dGVA)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// panel2
@@ -283,6 +289,7 @@
 			this.btnEditApp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.btnEditApp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.btnEditApp.UseVisualStyleBackColor = true;
+			this.btnEditApp.Click += new System.EventHandler(this.btnEditApp_Click);
 			// 
 			// btnAddNewApp
 			// 
@@ -321,6 +328,7 @@
 			this.tabControlCalend.Controls.Add(this.tabPageSelectManager);
 			this.tabControlCalend.Controls.Add(this.tabPageSelectClient);
 			this.tabControlCalend.Controls.Add(this.tabPageSelectObj);
+			this.tabControlCalend.Controls.Add(this.tabPageAppInDay);
 			this.tabControlCalend.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControlCalend.Location = new System.Drawing.Point(0, 0);
 			this.tabControlCalend.Name = "tabControlCalend";
@@ -609,7 +617,7 @@
 			// tbMangerSearch
 			// 
 			this.tbMangerSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-			this.tbMangerSearch.Location = new System.Drawing.Point(8, 26);
+			this.tbMangerSearch.Location = new System.Drawing.Point(15, 25);
 			this.tbMangerSearch.Name = "tbMangerSearch";
 			this.tbMangerSearch.Size = new System.Drawing.Size(751, 29);
 			this.tbMangerSearch.TabIndex = 30;
@@ -624,20 +632,20 @@
 			this.dGVMS.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dGVMS.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
 			this.dGVMS.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.dGVMS.DefaultCellStyle = dataGridViewCellStyle1;
-			this.dGVMS.Location = new System.Drawing.Point(8, 77);
+			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+			dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.dGVMS.DefaultCellStyle = dataGridViewCellStyle5;
+			this.dGVMS.Location = new System.Drawing.Point(16, 60);
 			this.dGVMS.MultiSelect = false;
 			this.dGVMS.Name = "dGVMS";
 			this.dGVMS.ReadOnly = true;
 			this.dGVMS.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dGVMS.Size = new System.Drawing.Size(751, 393);
+			this.dGVMS.Size = new System.Drawing.Size(751, 410);
 			this.dGVMS.TabIndex = 29;
 			// 
 			// tabPageSelectClient
@@ -660,27 +668,27 @@
 			this.dGVCS.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dGVCS.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
 			this.dGVCS.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.dGVCS.DefaultCellStyle = dataGridViewCellStyle2;
-			this.dGVCS.Location = new System.Drawing.Point(16, 77);
+			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.dGVCS.DefaultCellStyle = dataGridViewCellStyle6;
+			this.dGVCS.Location = new System.Drawing.Point(15, 60);
 			this.dGVCS.MultiSelect = false;
 			this.dGVCS.Name = "dGVCS";
 			this.dGVCS.ReadOnly = true;
 			this.dGVCS.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
 			this.dGVCS.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.dGVCS.Size = new System.Drawing.Size(744, 393);
+			this.dGVCS.Size = new System.Drawing.Size(744, 410);
 			this.dGVCS.TabIndex = 28;
 			// 
 			// tbClientSearch
 			// 
 			this.tbClientSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-			this.tbClientSearch.Location = new System.Drawing.Point(16, 28);
+			this.tbClientSearch.Location = new System.Drawing.Point(15, 25);
 			this.tbClientSearch.Name = "tbClientSearch";
 			this.tbClientSearch.Size = new System.Drawing.Size(744, 29);
 			this.tbClientSearch.TabIndex = 27;
@@ -699,7 +707,7 @@
 			// tbObjSearch
 			// 
 			this.tbObjSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-			this.tbObjSearch.Location = new System.Drawing.Point(16, 26);
+			this.tbObjSearch.Location = new System.Drawing.Point(15, 25);
 			this.tbObjSearch.Name = "tbObjSearch";
 			this.tbObjSearch.Size = new System.Drawing.Size(757, 29);
 			this.tbObjSearch.TabIndex = 26;
@@ -715,14 +723,14 @@
 			this.dGWOS.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dGWOS.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
 			this.dGWOS.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.dGWOS.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.dGWOS.DefaultCellStyle = dataGridViewCellStyle7;
 			this.dGWOS.Location = new System.Drawing.Point(16, 61);
 			this.dGWOS.MultiSelect = false;
 			this.dGWOS.Name = "dGWOS";
@@ -731,6 +739,51 @@
 			this.dGWOS.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.dGWOS.Size = new System.Drawing.Size(757, 409);
 			this.dGWOS.TabIndex = 27;
+			// 
+			// tabPageAppInDay
+			// 
+			this.tabPageAppInDay.Controls.Add(this.tbSearchApp);
+			this.tabPageAppInDay.Controls.Add(this.dGVA);
+			this.tabPageAppInDay.Location = new System.Drawing.Point(4, 4);
+			this.tabPageAppInDay.Name = "tabPageAppInDay";
+			this.tabPageAppInDay.Size = new System.Drawing.Size(787, 479);
+			this.tabPageAppInDay.TabIndex = 5;
+			this.tabPageAppInDay.UseVisualStyleBackColor = true;
+			// 
+			// dGVA
+			// 
+			this.dGVA.AllowUserToAddRows = false;
+			this.dGVA.AllowUserToDeleteRows = false;
+			this.dGVA.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.dGVA.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+			this.dGVA.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+			this.dGVA.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.dGVA.DefaultCellStyle = dataGridViewCellStyle8;
+			this.dGVA.Location = new System.Drawing.Point(16, 61);
+			this.dGVA.MultiSelect = false;
+			this.dGVA.Name = "dGVA";
+			this.dGVA.ReadOnly = true;
+			this.dGVA.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+			this.dGVA.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+			this.dGVA.Size = new System.Drawing.Size(757, 409);
+			this.dGVA.TabIndex = 28;
+			// 
+			// tbSearchApp
+			// 
+			this.tbSearchApp.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+			this.tbSearchApp.Location = new System.Drawing.Point(15, 25);
+			this.tbSearchApp.Name = "tbSearchApp";
+			this.tbSearchApp.Size = new System.Drawing.Size(757, 29);
+			this.tbSearchApp.TabIndex = 29;
 			// 
 			// FormCalendar
 			// 
@@ -765,6 +818,9 @@
 			this.tabPageSelectObj.ResumeLayout(false);
 			this.tabPageSelectObj.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dGWOS)).EndInit();
+			this.tabPageAppInDay.ResumeLayout(false);
+			this.tabPageAppInDay.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dGVA)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -818,5 +874,8 @@
 		private System.Windows.Forms.TextBox tbObjSearch;
 		private System.Windows.Forms.DataGridView dGWOS;
 		private System.Windows.Forms.Button btnSelect;
+		private System.Windows.Forms.TabPage tabPageAppInDay;
+		private System.Windows.Forms.TextBox tbSearchApp;
+		private System.Windows.Forms.DataGridView dGVA;
 	}
 }

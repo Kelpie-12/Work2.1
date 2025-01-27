@@ -1,5 +1,6 @@
 ﻿using Common.Cache;
 using Domen2;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,6 +27,7 @@ namespace Work2._1
 			tabControlCalend.TabPages.Remove(tabPageSelectClient);
 			tabControlCalend.TabPages.Remove(tabPageSelectManager);
 			tabControlCalend.TabPages.Remove(tabPageSelectObj);
+			tabControlCalend.TabPages.Remove(tabPageAppInDay);
 			selectClient = selectMan = selectObj = false;
 
 		}
@@ -44,12 +46,6 @@ namespace Work2._1
 			AddControl();
 
 		}
-		private void DisplyApp()
-		{
-
-		}
-
-
 		private void pBoxClose_Click(object sender, EventArgs e)
 		{
 			this.Close();
@@ -80,16 +76,16 @@ namespace Work2._1
 		private void LoadAppParameters()
 		{
 			//если зашли под менеджерем то сразу выставляюся позиции клентов и объектов
-			LoadManager();
 			LoadClient();
 			if (UserLoginCache.Position == Positions.Manager)
 			{
-
+				lbMan.Text = UserLoginCache.LastName;
+				btnSelectManger.Visible = false;
 			}
 			//если под сео или админ то выставляются после выбора менеджера
 			if (UserLoginCache.Position == Positions.Administrator || UserLoginCache.Position == Positions.CEO)
 			{
-
+				LoadManager();
 			}
 		}
 
@@ -113,7 +109,7 @@ namespace Work2._1
 			tabControlCalend.TabPages.Add(tabPageAddNewAppointment);
 			tabControlCalend.TabPages.Remove(tabPageCalendar);
 			btnEditApp.Enabled = btnDeleteApp.Enabled = btnAddNewApp.Enabled = false;
-			btnSaveApp.Enabled =  true;
+			btnSaveApp.Enabled = true;
 
 		}
 
@@ -122,6 +118,7 @@ namespace Work2._1
 			pBBack.Visible = false;
 			tabControlCalend.TabPages.Add(tabPageCalendar);
 			tabControlCalend.TabPages.Remove(tabPageAddNewAppointment);
+			tabControlCalend.TabPages.Remove(tabPageAppInDay);
 			btnMonBack.Visible = btnMonNext.Visible = btnAddNewApp.Visible = true;
 			btnMonBack.Enabled = btnMonNext.Enabled = btnAddNewApp.Enabled = true;
 			btnSaveApp.Enabled = btnEditApp.Enabled = btnDeleteApp.Enabled = false;
@@ -136,10 +133,12 @@ namespace Work2._1
 				dTPDateApp.Value, dTPTimeApp.Value);
 			tabControlCalend.TabPages.Add(tabPageCalendar);
 			tabControlCalend.TabPages.Remove(tabPageAddNewAppointment);
-			btnMonBack.Enabled = btnMonNext.Enabled = btnAddNewApp.Enabled = false;
-			btnSaveApp.Enabled = btnEditApp.Enabled = btnDeleteApp.Enabled = true;
+			btnMonBack.Visible = btnMonNext.Visible = btnMonBack.Enabled = btnMonNext.Enabled = btnAddNewApp.Enabled = true;
+			btnSaveApp.Enabled = btnEditApp.Enabled = btnDeleteApp.Enabled = false;
 			pBBack.Visible = false;
 			lbDate.Text = "Календарь";
+			daysContener.Controls.Clear();
+			AddControl();
 		}
 
 		private void btnSelectManger_Click(object sender, EventArgs e)
@@ -176,7 +175,7 @@ namespace Work2._1
 			if (emptyValue)
 				LoadManager();
 			else
-				dGVMS.DataSource = app.GetManagerByValue(tbMangerSearch.Text);	
+				dGVMS.DataSource = app.GetManagerByValue(tbMangerSearch.Text);
 		}
 
 		private void tbClientSearch_TextChanged(object sender, EventArgs e)
@@ -211,6 +210,12 @@ namespace Work2._1
 			lbDate.Text = "Выбрать объект";
 		}
 
+		private void btnEditApp_Click(object sender, EventArgs e)
+		{
+			//редакировать евент
+
+		}
+
 		private void btnSelect_Click(object sender, EventArgs e)
 		{
 			tabControlCalend.TabPages.Add(tabPageAddNewAppointment);
@@ -230,9 +235,9 @@ namespace Work2._1
 			}
 			if (selectObj)
 			{
-				lbObj.Text = "г. " +dGWOS.SelectedRows[0].Cells[4].Value.ToString()
-					+ " у. "+dGWOS.SelectedRows[0].Cells[5].Value.ToString()
-					+ " д. "+dGWOS.SelectedRows[0].Cells[5].Value.ToString();
+				lbObj.Text = "г. " + dGWOS.SelectedRows[0].Cells[4].Value.ToString()
+					+ " у. " + dGWOS.SelectedRows[0].Cells[5].Value.ToString()
+					+ " д. " + dGWOS.SelectedRows[0].Cells[5].Value.ToString();
 				selectObj = false;
 			}
 			btnSelect.Visible = false;
@@ -255,8 +260,27 @@ namespace Work2._1
 			for (int i = 1; i <= days; i++)
 			{
 				UserControlDays ucd = new UserControlDays();
-				ucd.Days(i);
-				daysContener.Controls.Add(ucd);				
+				ucd.Days(i, month, year);
+				daysContener.Controls.Add(ucd);
+				ucd.Click += SelectDay;
+			}
+		}
+		private void SelectDay(object sender, EventArgs e)
+		{
+			var info = (UserControlDays)sender;
+			DateTime date = new DateTime(info.y, info.m, info.day);
+			if (info.count == 0)
+				MessageBox.Show("Встречи " + date.Date.ToShortDateString()+ "\nне запланированны", " ", MessageBoxButtons.OK);
+			else
+			{
+				lbDate.Text = "Встречи за " + date.Date.ToShortDateString();// + info.day + '.' + info.m + '.' + info.y;
+				pBBack.Visible = true;
+				btnMonBack.Visible = btnMonNext.Visible = false;
+				tabControlCalend.TabPages.Remove(tabPageCalendar);
+				tabControlCalend.TabPages.Add(tabPageAppInDay);
+				btnEditApp.Enabled = btnDeleteApp.Enabled = btnAddNewApp.Enabled = true;
+				btnSaveApp.Enabled = false;
+				dGVA.DataSource = app.GetAppointmentsByDate(date);
 			}
 		}
 	}

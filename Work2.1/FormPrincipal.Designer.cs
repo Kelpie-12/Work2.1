@@ -32,6 +32,7 @@
 			this.panelConnector = new System.Windows.Forms.Panel();
 			this.panelForm = new System.Windows.Forms.Panel();
 			this.panelMenu = new System.Windows.Forms.Panel();
+			this.btnObjects = new System.Windows.Forms.Button();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.labelEmail = new System.Windows.Forms.Label();
 			this.labelLogin = new System.Windows.Forms.Label();
@@ -49,7 +50,6 @@
 			this.pBoxMinimazed = new System.Windows.Forms.PictureBox();
 			this.pBoxMaximazed = new System.Windows.Forms.PictureBox();
 			this.pBoxClose = new System.Windows.Forms.PictureBox();
-			this.btnObjects = new System.Windows.Forms.Button();
 			this.panelConnector.SuspendLayout();
 			this.panelMenu.SuspendLayout();
 			this.panel1.SuspendLayout();
@@ -100,6 +100,23 @@
 			this.panelMenu.Size = new System.Drawing.Size(250, 560);
 			this.panelMenu.TabIndex = 1;
 			this.panelMenu.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelMenu_MouseDown);
+			// 
+			// btnObjects
+			// 
+			this.btnObjects.FlatAppearance.BorderSize = 0;
+			this.btnObjects.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(50)))), ((int)(((byte)(70)))));
+			this.btnObjects.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(61)))), ((int)(((byte)(92)))));
+			this.btnObjects.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnObjects.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.btnObjects.ForeColor = System.Drawing.SystemColors.Info;
+			this.btnObjects.Image = ((System.Drawing.Image)(resources.GetObject("btnObjects.Image")));
+			this.btnObjects.Location = new System.Drawing.Point(0, 298);
+			this.btnObjects.Name = "btnObjects";
+			this.btnObjects.Size = new System.Drawing.Size(260, 50);
+			this.btnObjects.TabIndex = 6;
+			this.btnObjects.Text = "Объекты";
+			this.btnObjects.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.btnObjects.UseVisualStyleBackColor = true;
 			// 
 			// panel1
 			// 
@@ -185,9 +202,9 @@
 			this.btnChart.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnChart.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnChart.Image = ((System.Drawing.Image)(resources.GetObject("btnChart.Image")));
-			this.btnChart.Location = new System.Drawing.Point(-5, 425);
+			this.btnChart.Location = new System.Drawing.Point(0, 410);
 			this.btnChart.Name = "btnChart";
-			this.btnChart.Size = new System.Drawing.Size(260, 51);
+			this.btnChart.Size = new System.Drawing.Size(260, 50);
 			this.btnChart.TabIndex = 4;
 			this.btnChart.Text = "Статистика";
 			this.btnChart.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -202,9 +219,9 @@
 			this.btnSetting.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnSetting.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnSetting.Image = ((System.Drawing.Image)(resources.GetObject("btnSetting.Image")));
-			this.btnSetting.Location = new System.Drawing.Point(-5, 368);
+			this.btnSetting.Location = new System.Drawing.Point(0, 354);
 			this.btnSetting.Name = "btnSetting";
-			this.btnSetting.Size = new System.Drawing.Size(260, 51);
+			this.btnSetting.Size = new System.Drawing.Size(260, 50);
 			this.btnSetting.TabIndex = 3;
 			this.btnSetting.Text = "Настройки";
 			this.btnSetting.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -219,9 +236,9 @@
 			this.btnCalendar.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnCalendar.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnCalendar.Image = ((System.Drawing.Image)(resources.GetObject("btnCalendar.Image")));
-			this.btnCalendar.Location = new System.Drawing.Point(-2, 261);
+			this.btnCalendar.Location = new System.Drawing.Point(0, 242);
 			this.btnCalendar.Name = "btnCalendar";
-			this.btnCalendar.Size = new System.Drawing.Size(260, 51);
+			this.btnCalendar.Size = new System.Drawing.Size(260, 50);
 			this.btnCalendar.TabIndex = 2;
 			this.btnCalendar.Text = "Календарь";
 			this.btnCalendar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -237,10 +254,10 @@
 			this.btnHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnHistory.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnHistory.Image = ((System.Drawing.Image)(resources.GetObject("btnHistory.Image")));
-			this.btnHistory.Location = new System.Drawing.Point(-5, 203);
+			this.btnHistory.Location = new System.Drawing.Point(0, 186);
 			this.btnHistory.Name = "btnHistory";
 			this.btnHistory.RightToLeft = System.Windows.Forms.RightToLeft.No;
-			this.btnHistory.Size = new System.Drawing.Size(260, 51);
+			this.btnHistory.Size = new System.Drawing.Size(260, 50);
 			this.btnHistory.TabIndex = 1;
 			this.btnHistory.Text = "История";
 			this.btnHistory.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -257,7 +274,7 @@
 			this.btnProfil.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnProfil.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnProfil.Image = ((System.Drawing.Image)(resources.GetObject("btnProfil.Image")));
-			this.btnProfil.Location = new System.Drawing.Point(-5, 147);
+			this.btnProfil.Location = new System.Drawing.Point(0, 130);
 			this.btnProfil.Name = "btnProfil";
 			this.btnProfil.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.btnProfil.Size = new System.Drawing.Size(260, 50);
@@ -346,23 +363,6 @@
 			this.pBoxClose.TabIndex = 0;
 			this.pBoxClose.TabStop = false;
 			this.pBoxClose.Click += new System.EventHandler(this.pBoxClose_Click);
-			// 
-			// btnObjects
-			// 
-			this.btnObjects.FlatAppearance.BorderSize = 0;
-			this.btnObjects.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(50)))), ((int)(((byte)(70)))));
-			this.btnObjects.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(61)))), ((int)(((byte)(92)))));
-			this.btnObjects.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnObjects.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.btnObjects.ForeColor = System.Drawing.SystemColors.Info;
-			this.btnObjects.Image = ((System.Drawing.Image)(resources.GetObject("btnObjects.Image")));
-			this.btnObjects.Location = new System.Drawing.Point(-5, 311);
-			this.btnObjects.Name = "btnObjects";
-			this.btnObjects.Size = new System.Drawing.Size(260, 51);
-			this.btnObjects.TabIndex = 6;
-			this.btnObjects.Text = "Объекты";
-			this.btnObjects.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this.btnObjects.UseVisualStyleBackColor = true;
 			// 
 			// FormPrincipal
 			// 

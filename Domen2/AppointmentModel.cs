@@ -39,6 +39,18 @@ namespace Domen2
 		{
 			return userData.GetObjectByValue(search);
 		}
-		public DataTable GetAllObject() { return userData.GetAllObject(); }
+		public DataTable GetAllObject() 
+		{
+			return userData.GetAllObject(); 
+		}
+
+		public DataTable GetAppointmentsByDate(DateTime date)
+		{
+			return userData.GetAppointmentsByValue(date);
+		}
+		public int GetCountAppointmentsInDay(DateTime date)
+		{
+			return userData.GetCountAppointmentsInDay(date);
+		}
 	}
 }
