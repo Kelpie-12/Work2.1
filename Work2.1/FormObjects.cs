@@ -37,6 +37,9 @@ namespace Work2._1
 		void LoadObject()
 		{
 			dataGridViewObject.DataSource = obj.GetAllObject();
+			cbTipObj.DataSource = obj.GetTypeObjects();
+			cbTipObj.DisplayMember = "name";
+			cbTipObj.ValueMember = "id";
 		}
 
 		private void pBoxClose_Click(object sender, EventArgs e)
@@ -67,11 +70,11 @@ namespace Work2._1
 				tbFlat.Text = dataGridViewObject.SelectedRows[0].Cells[6].Value.ToString();
 				tbText.ReadOnly = tbCiti.ReadOnly = tbStreet.ReadOnly = tbHome.ReadOnly = tbFlat.ReadOnly = true;
 				btnSaveClient.Enabled = false;
-				//	btnSaveClient.Enabled = btnSelect.Enabled = false;
-				//	btnSearch.Enabled = btnEditClient.Enabled = btnDeleteClient.Enabled = btnAddNewClient.Enabled = true;
 				tcObjects.TabPages.Remove(tabPageObjSearch);
 				tcObjects.TabPages.Add(tabPageObjectSelect);
 				selectObj = true;
+				GetIndexTypeObjects(dataGridViewObject.SelectedRows[0].Cells[7].Value.ToString());
+				
 				if (UserLoginCache.Position == Positions.Manager)
 					btnSelectManger.Visible = false;
 				else
@@ -83,46 +86,39 @@ namespace Work2._1
 
 		private void btnSaveClient_Click(object sender, EventArgs e)
 		{
-			if (selectObj == true)
-			{
-				if (pictureBoxPhoto.Image == null)
-					if (tbFlat.Text == string.Empty)
-						obj.EditObject(null, Convert.ToInt32(lbIDObj.Text), lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text));
-					else
-						obj.EditObject(null, Convert.ToInt32(lbIDObj.Text), lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(tbFlat.Text));
-				else
-				{
-					Bitmap image = new Bitmap(pictureBoxPhoto.Image);
-					obj.EditObject(image, Convert.ToInt32(lbIDObj.Text), lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(tbFlat.Text));
-				}
-			}
+			if (lbMan.Text == string.Empty)
+				MessageBox.Show("Выбирите менеджера");
 			else
 			{
-				if (pictureBoxPhoto.Image == null)
-					obj.AddNewObjects(null, lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(tbFlat.Text));
+				if (selectObj == true)
+				{
+					if (tbFlat.Text == string.Empty)
+						obj.EditObject(null, Convert.ToInt32(lbIDObj.Text), lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(cbTipObj.SelectedValue));
+					else
+						obj.EditObject(null, Convert.ToInt32(lbIDObj.Text), lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(cbTipObj.SelectedValue), Convert.ToInt32(tbFlat.Text));
+				}
 				else
 				{
-					Bitmap image = new Bitmap(pictureBoxPhoto.Image);
-					obj.AddNewObjects(image, lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(tbFlat.Text));
+					if (tbFlat.Text == string.Empty)
+						obj.AddNewObjects(null, lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(cbTipObj.SelectedValue));
+					else
+						obj.AddNewObjects(null, lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(cbTipObj.SelectedValue), Convert.ToInt32(tbFlat.Text));
 				}
-
+				selectObj = false;
+				LoadObject();
+				btnSearch_Click(sender, e);
 			}
-			selectObj = false;
-			tcObjects.TabPages.Remove(tabPageObjectSelect);
-			tcObjects.TabPages.Add(tabPageObjSearch);
-			LoadObject();
 		}
 
 		private void btnSelectPhpto_Click(object sender, EventArgs e)
 		{
-
 			using (var openFileDialog = new OpenFileDialog())
 			{
 				openFileDialog.Filter = "Image files (*.jpg,*.jpeg,*.png) | *.jpg; *.jpeg; *.png ";
 				openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 				if (openFileDialog.ShowDialog() == DialogResult.OK)
 				{
-					pictureBoxPhoto.Image = System.Drawing.Image.FromFile(openFileDialog.FileName);
+					//pictureBoxPhoto.Image = System.Drawing.Image.FromFile(openFileDialog.FileName);
 				}
 
 			}
@@ -134,20 +130,6 @@ namespace Work2._1
 			if (selectObj == false)
 			{
 				btnSelectClient_Click(sender, e);
-				//if (pictureBoxPhoto.Image != null)
-				//{
-				//	Bitmap image = new Bitmap(pictureBoxPhoto.Image);
-				//	obj.EditObject(Convert.ToInt32(lbIDObj.Text), image, lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(tbFlat.Text));
-				//}
-				//else
-				//{
-				//	obj.EditObject(Convert.ToInt32(lbIDObj.Text), null, lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(tbFlat.Text));
-				//
-				//}
-				//
-				//tcObjects.TabPages.Remove(tabPageObjectSelect);
-				//tcObjects.TabPages.Add(tabPageObjSearch);
-				//selectObj = false;
 			}
 			tbText.ReadOnly = tbCiti.ReadOnly = tbStreet.ReadOnly = tbHome.ReadOnly = tbFlat.ReadOnly = false;
 			btnEditClient.Enabled = false; btnSaveClient.Enabled = true;
@@ -205,6 +187,36 @@ namespace Work2._1
 				if (e.KeyChar == (char)Keys.Back)
 					return;
 			e.Handled = true;
+		}
+
+		private void btnDeleteClient_Click(object sender, EventArgs e)
+		{
+			if (selectObj == true)
+			{
+				obj.DeleteObjects(Convert.ToInt32(lbIDObj.Text));
+				btnSearch_Click(sender, e);
+			}
+			else
+			{
+				obj.DeleteObjects(Convert.ToInt32(dataGridViewObject.SelectedRows[0].Cells[0].Value));
+				LoadObject();
+			}
+		}
+
+		private int GetIndexTypeObjects(string t)
+		{
+			
+			for (int i = 0; i < cbTipObj.Items.Count; i++)
+			{
+				cbTipObj.SelectedIndex = i;
+				if (cbTipObj.GetItemText(cbTipObj.SelectedItem) == t)
+				{
+					cbTipObj.SelectedIndex = i;
+					return i;
+				}
+			}
+			return -1;
+
 		}
 	}
 }

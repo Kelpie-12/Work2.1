@@ -311,8 +311,8 @@ namespace DataAccess2
 						" Manager.LastName as [Менеджер], [Objects].[Text] as [Описание]," +
 						" [Objects].AddressCiti as [Город],[Objects].AddressStreet as [Улица]," +
 						" [Objects].AddressNumberHouse as [Дом]," +
-						" [Objects].AdressNumberFlat as [Квартира] " +
-						" from Manager,[Objects] where [Objects].ManagerId=Manager.Id and Manager.LastName=@man; ";
+						" [Objects].AdressNumberFlat as [Квартира],TypeObjects.name as [Тип]" +
+						" from Manager,[Objects],TypeObjects where [Objects].ManagerId=Manager.Id and Manager.LastName=@man and [Objects].TypeObjects=TypeObjects.id; ";
 						cmd.Parameters.AddWithValue("@man", UserLoginCache.LastName);
 					}
 					else
@@ -321,8 +321,8 @@ namespace DataAccess2
 							" Manager.LastName as [Менеджер], [Objects].[Text] as [Описание]," +
 							" [Objects].AddressCiti as [Город],[Objects].AddressStreet as [Улица]," +
 							" [Objects].AddressNumberHouse as [Дом]," +
-							" [Objects].AdressNumberFlat as [Квартира] " +
-							" from Manager,[Objects] where [Objects].ManagerId=Manager.Id ; ";
+							" [Objects].AdressNumberFlat as [Квартира], TypeObjects.name as [Тип] " +
+							" from Manager,[Objects],TypeObjects where [Objects].ManagerId=Manager.Id and [Objects].TypeObjects=TypeObjects.id; ";
 					}
 					cmd.CommandType = System.Data.CommandType.Text;
 					SqlDataReader reader = cmd.ExecuteReader();
@@ -455,7 +455,7 @@ namespace DataAccess2
 			}
 
 		}
-		public void AddNewObjects(Bitmap image, string man, string text, string addCiti, string addStr, int addHome, int addFlat = -1)
+		public void AddNewObjects(Bitmap image, string man, string text, string addCiti, string addStr, int addHome,  int type,int addFlat = -1)
 		{
 			DataTable table = GetManClientIdByName(man, "-1");
 			using (var con = GetConnection())
@@ -466,8 +466,8 @@ namespace DataAccess2
 					cmd.Connection = con;
 					cmd.CommandText = " use ComopanyProgect; begin if not exists (select * from [Objects] " +
 						"where ManagerId=@manId and AddressCiti=@citi and AddressStreet=@street and AddressNumberHouse=@home and AdressNumberFlat=@flat) " +
-						"begin insert into [Objects] (Photo,ManagerId,Text,AddressCiti,AddressStreet,AddressNumberHouse,AdressNumberFlat)" +
-						" values (@image,@manId,@text,@citi,@street,@home,@flat) end end";
+						"begin insert into [Objects] (ManagerId,Text,AddressCiti,AddressStreet,AddressNumberHouse,AdressNumberFlat,TypeObjects)" +
+						" values (@manId,@text,@citi,@street,@home,@flat,@typeObj) end end";
 					using (var memoryStream = new MemoryStream())
 					{
 						if (image == null)
@@ -488,6 +488,7 @@ namespace DataAccess2
 						}
 					}
 					cmd.Parameters.AddWithValue("@manId", table.Rows[0][0]);
+					cmd.Parameters.AddWithValue("@typeObj", type);
 					cmd.Parameters.AddWithValue("@text", text);
 					cmd.Parameters.AddWithValue("@citi", addCiti);
 					cmd.Parameters.AddWithValue("@street", addStr);
@@ -501,7 +502,7 @@ namespace DataAccess2
 				}
 			}
 		}
-		public void EditObject(Bitmap image, int id, string man, string text, string addCiti, string addStr, int addHome, int addFlat = -1)
+		public void EditObject(Bitmap image, int id, string man, string text, string addCiti, string addStr, int addHome, int type, int addFlat = -1)
 		{
 			DataTable table = GetManClientIdByName(man, "-1");
 			using (var conn = GetConnection())
@@ -511,8 +512,8 @@ namespace DataAccess2
 				{
 					cmd.Connection = conn;
 					cmd.CommandText = "use ComopanyProgect; " +
-						"update [Objects] set Photo=@image,ManagerId=@manId,Text=@text,AddressCiti=@citi," +
-						"AddressStreet=@street,AddressNumberHouse=@home,AdressNumberFlat=@flat " +
+						"update [Objects] set ManagerId=@manId,Text=@text,AddressCiti=@citi," +
+						"AddressStreet=@street,AddressNumberHouse=@home,AdressNumberFlat=@flat, TypeObjects=@typeObj " +
 						"where [Objects].Id=@id";
 
 					using (var memoryStream = new MemoryStream())
@@ -537,6 +538,7 @@ namespace DataAccess2
 
 					cmd.Parameters.AddWithValue("@manId", table.Rows[0][0]);
 					cmd.Parameters.AddWithValue("@id", id);
+					cmd.Parameters.AddWithValue("@typeObj", type);
 					cmd.Parameters.AddWithValue("@text", text);
 					cmd.Parameters.AddWithValue("@citi", addCiti);
 					cmd.Parameters.AddWithValue("@street", addStr);
@@ -546,6 +548,21 @@ namespace DataAccess2
 					else
 						cmd.Parameters.AddWithValue("@flat", addFlat);
 					cmd.CommandType = System.Data.CommandType.Text;
+					SqlDataReader reader = cmd.ExecuteReader();
+				}
+			}
+		}
+		public void DeleteObjects(int id)
+		{
+			using (var conn = GetConnection())
+			{
+				conn.Open();
+				using (var cmd = new SqlCommand())
+				{
+					cmd.Connection = conn;
+					cmd.CommandText = "use ComopanyProgect; delete from Objects where Id=@id ";
+					cmd.CommandType = System.Data.CommandType.Text;
+					cmd.Parameters.AddWithValue("@id", id);
 					SqlDataReader reader = cmd.ExecuteReader();
 				}
 			}
@@ -712,7 +729,35 @@ namespace DataAccess2
 			}
 			return table;
 		}
-
+		public DataTable GetTypeObjects()
+		{
+			DataTable table = new DataTable();
+			using (var conn = GetConnection())
+			{
+				conn.Open();
+				using (var cmd = new SqlCommand())
+				{
+					cmd.Connection = conn;
+					cmd.CommandText = "use ComopanyProgect;" +
+						"select * from TypeObjects ";
+					cmd.CommandType = System.Data.CommandType.Text;
+					SqlDataReader reader = cmd.ExecuteReader();
+					if (reader.HasRows)
+					{
+						for (int i = 0; i < reader.FieldCount; i++)
+							table.Columns.Add(reader.GetName(i));
+						while (reader.Read())
+						{
+							DataRow row = table.NewRow();
+							for (int i = 0; i < reader.FieldCount; i++)
+								row[i] = reader[i];
+							table.Rows.Add(row);
+						}
+					}
+				}
+			}
+			return table;
+		}
 		public void AnyMethod()
 		{
 			if (UserLoginCache.Position == Positions.Administrator)

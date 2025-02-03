@@ -20,13 +20,13 @@ namespace Domen2
 		{
 			return user.GetObjectByValue(search);
 		}
-		public void AddNewObjects(Bitmap image, string man, string text, string addCiti, string addStr, int addHome, int addFlat = -1)
+		public void AddNewObjects(Bitmap image, string man, string text, string addCiti, string addStr, int addHome, int type,int addFlat = -1)
 		{
-			user.AddNewObjects(image, man, text, addCiti, addStr, addHome, addFlat);
+			user.AddNewObjects(image, man, text, addCiti, addStr, addHome,type, addFlat);
 		}
-		public void EditObject (Bitmap image,int id, string man, string text, string addCiti, string addStr, int addHome, int addFlat = -1)
+		public void EditObject (Bitmap image,int id, string man, string text, string addCiti, string addStr, int addHome, int type,int addFlat = -1)
 		{
-			user.EditObject(image, id, man, text, addCiti, addStr, addHome, addFlat);
+			user.EditObject(image, id, man, text, addCiti, addStr, addHome,type, addFlat);
 		}
 		public DataTable GetAllManager()
 		{
@@ -35,6 +35,14 @@ namespace Domen2
 		public DataTable GetManagerByValue(string search)
 		{
 			return user.GetManagerByValue(search);
+		}
+		public DataTable GetTypeObjects()
+		{
+			return user.GetTypeObjects();	
+		}
+		public void DeleteObjects(int id)
+		{
+			user.DeleteObjects(id);
 		}
 	}
 }
