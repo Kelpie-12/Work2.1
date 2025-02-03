@@ -11,7 +11,7 @@ namespace Domen2
 	public class AppointmentModel
 	{
 		UserData userData = new UserData();
-		public void AddNewApp(int man, int client, int obj, DateTime date, DateTime time)
+		public void AddNewApp(string man, string client, int obj, DateTime date, DateTime time)
 		{
 			userData.AddNewApp(man, client, obj, date, time);
 		}
@@ -51,6 +51,14 @@ namespace Domen2
 		public int GetCountAppointmentsInDay(DateTime date)
 		{
 			return userData.GetCountAppointmentsInDay(date);
+		}
+		public void EditAppoint(int appointId, string man, string client, int objId, DateTime date, DateTime time)
+		{
+			userData.EditAppoint(appointId, man, client, objId, date, time);
+		}
+		public void DeleteAppoint(int id)
+		{
+			userData.DeleteAppoint(id);	
 		}
 	}
 }

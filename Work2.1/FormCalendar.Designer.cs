@@ -29,13 +29,13 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCalendar));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.pBoxClose = new System.Windows.Forms.PictureBox();
-			this.lbDate = new System.Windows.Forms.Label();
+			this.lbHeader = new System.Windows.Forms.Label();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.btnSelect = new System.Windows.Forms.Button();
 			this.pBBack = new System.Windows.Forms.PictureBox();
@@ -81,8 +81,10 @@
 			this.tbObjSearch = new System.Windows.Forms.TextBox();
 			this.dGWOS = new System.Windows.Forms.DataGridView();
 			this.tabPageAppInDay = new System.Windows.Forms.TabPage();
-			this.dGVA = new System.Windows.Forms.DataGridView();
 			this.tbSearchApp = new System.Windows.Forms.TextBox();
+			this.dGVA = new System.Windows.Forms.DataGridView();
+			this.lable13 = new System.Windows.Forms.Label();
+			this.lbObjId = new System.Windows.Forms.Label();
 			this.panel2.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pBoxClose)).BeginInit();
 			this.panel1.SuspendLayout();
@@ -106,7 +108,7 @@
 			// 
 			this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(4)))), ((int)(((byte)(41)))), ((int)(((byte)(68)))));
 			this.panel2.Controls.Add(this.pBoxClose);
-			this.panel2.Controls.Add(this.lbDate);
+			this.panel2.Controls.Add(this.lbHeader);
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel2.Location = new System.Drawing.Point(0, 0);
 			this.panel2.Name = "panel2";
@@ -126,16 +128,16 @@
 			this.pBoxClose.TabStop = false;
 			this.pBoxClose.Click += new System.EventHandler(this.pBoxClose_Click);
 			// 
-			// lbDate
+			// lbHeader
 			// 
-			this.lbDate.AutoSize = true;
-			this.lbDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.lbDate.ForeColor = System.Drawing.SystemColors.Info;
-			this.lbDate.Location = new System.Drawing.Point(16, 12);
-			this.lbDate.Name = "lbDate";
-			this.lbDate.Size = new System.Drawing.Size(108, 24);
-			this.lbDate.TabIndex = 0;
-			this.lbDate.Text = "Календарь";
+			this.lbHeader.AutoSize = true;
+			this.lbHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.lbHeader.ForeColor = System.Drawing.SystemColors.Info;
+			this.lbHeader.Location = new System.Drawing.Point(16, 12);
+			this.lbHeader.Name = "lbHeader";
+			this.lbHeader.Size = new System.Drawing.Size(108, 24);
+			this.lbHeader.TabIndex = 0;
+			this.lbHeader.Text = "Календарь";
 			// 
 			// panel1
 			// 
@@ -269,6 +271,7 @@
 			this.btnDeleteApp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.btnDeleteApp.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.btnDeleteApp.UseVisualStyleBackColor = true;
+			this.btnDeleteApp.Click += new System.EventHandler(this.btnDeleteApp_Click);
 			// 
 			// btnEditApp
 			// 
@@ -442,6 +445,8 @@
 			// 
 			// tabPageAddNewAppointment
 			// 
+			this.tabPageAddNewAppointment.Controls.Add(this.lbObjId);
+			this.tabPageAddNewAppointment.Controls.Add(this.lable13);
 			this.tabPageAddNewAppointment.Controls.Add(this.btnSelectObj);
 			this.tabPageAddNewAppointment.Controls.Add(this.lbObj);
 			this.tabPageAddNewAppointment.Controls.Add(this.btnSelectClient);
@@ -469,7 +474,7 @@
 			this.btnSelectObj.FlatAppearance.BorderSize = 0;
 			this.btnSelectObj.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnSelectObj.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.btnSelectObj.Location = new System.Drawing.Point(591, 275);
+			this.btnSelectObj.Location = new System.Drawing.Point(607, 275);
 			this.btnSelectObj.Name = "btnSelectObj";
 			this.btnSelectObj.Size = new System.Drawing.Size(98, 34);
 			this.btnSelectObj.TabIndex = 34;
@@ -481,7 +486,7 @@
 			// 
 			this.lbObj.AutoSize = true;
 			this.lbObj.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.lbObj.Location = new System.Drawing.Point(176, 280);
+			this.lbObj.Location = new System.Drawing.Point(192, 280);
 			this.lbObj.Name = "lbObj";
 			this.lbObj.Size = new System.Drawing.Size(410, 24);
 			this.lbObj.TabIndex = 33;
@@ -494,7 +499,7 @@
 			this.btnSelectClient.FlatAppearance.BorderSize = 0;
 			this.btnSelectClient.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnSelectClient.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.btnSelectClient.Location = new System.Drawing.Point(591, 206);
+			this.btnSelectClient.Location = new System.Drawing.Point(607, 206);
 			this.btnSelectClient.Name = "btnSelectClient";
 			this.btnSelectClient.Size = new System.Drawing.Size(98, 34);
 			this.btnSelectClient.TabIndex = 32;
@@ -506,7 +511,7 @@
 			// 
 			this.lbClient.AutoSize = true;
 			this.lbClient.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.lbClient.Location = new System.Drawing.Point(176, 211);
+			this.lbClient.Location = new System.Drawing.Point(192, 211);
 			this.lbClient.Name = "lbClient";
 			this.lbClient.Size = new System.Drawing.Size(410, 24);
 			this.lbClient.TabIndex = 31;
@@ -519,7 +524,7 @@
 			this.btnSelectManger.FlatAppearance.BorderSize = 0;
 			this.btnSelectManger.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnSelectManger.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.btnSelectManger.Location = new System.Drawing.Point(591, 143);
+			this.btnSelectManger.Location = new System.Drawing.Point(607, 143);
 			this.btnSelectManger.Name = "btnSelectManger";
 			this.btnSelectManger.Size = new System.Drawing.Size(98, 34);
 			this.btnSelectManger.TabIndex = 30;
@@ -531,7 +536,7 @@
 			// 
 			this.lbMan.AutoSize = true;
 			this.lbMan.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.lbMan.Location = new System.Drawing.Point(176, 148);
+			this.lbMan.Location = new System.Drawing.Point(192, 148);
 			this.lbMan.Name = "lbMan";
 			this.lbMan.Size = new System.Drawing.Size(410, 24);
 			this.lbMan.TabIndex = 29;
@@ -632,14 +637,14 @@
 			this.dGVMS.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dGVMS.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
 			this.dGVMS.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-			dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.dGVMS.DefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+			dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.dGVMS.DefaultCellStyle = dataGridViewCellStyle1;
 			this.dGVMS.Location = new System.Drawing.Point(16, 60);
 			this.dGVMS.MultiSelect = false;
 			this.dGVMS.Name = "dGVMS";
@@ -668,14 +673,14 @@
 			this.dGVCS.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dGVCS.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
 			this.dGVCS.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-			dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.dGVCS.DefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+			dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.dGVCS.DefaultCellStyle = dataGridViewCellStyle2;
 			this.dGVCS.Location = new System.Drawing.Point(15, 60);
 			this.dGVCS.MultiSelect = false;
 			this.dGVCS.Name = "dGVCS";
@@ -723,14 +728,14 @@
 			this.dGWOS.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dGWOS.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
 			this.dGWOS.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.dGWOS.DefaultCellStyle = dataGridViewCellStyle7;
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.dGWOS.DefaultCellStyle = dataGridViewCellStyle3;
 			this.dGWOS.Location = new System.Drawing.Point(16, 61);
 			this.dGWOS.MultiSelect = false;
 			this.dGWOS.Name = "dGWOS";
@@ -750,6 +755,14 @@
 			this.tabPageAppInDay.TabIndex = 5;
 			this.tabPageAppInDay.UseVisualStyleBackColor = true;
 			// 
+			// tbSearchApp
+			// 
+			this.tbSearchApp.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+			this.tbSearchApp.Location = new System.Drawing.Point(15, 25);
+			this.tbSearchApp.Name = "tbSearchApp";
+			this.tbSearchApp.Size = new System.Drawing.Size(757, 29);
+			this.tbSearchApp.TabIndex = 29;
+			// 
 			// dGVA
 			// 
 			this.dGVA.AllowUserToAddRows = false;
@@ -760,14 +773,14 @@
 			this.dGVA.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
 			this.dGVA.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
 			this.dGVA.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-			dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-			dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-			dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-			dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-			this.dGVA.DefaultCellStyle = dataGridViewCellStyle8;
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+			dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+			dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+			dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+			dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+			this.dGVA.DefaultCellStyle = dataGridViewCellStyle4;
 			this.dGVA.Location = new System.Drawing.Point(16, 61);
 			this.dGVA.MultiSelect = false;
 			this.dGVA.Name = "dGVA";
@@ -777,13 +790,25 @@
 			this.dGVA.Size = new System.Drawing.Size(757, 409);
 			this.dGVA.TabIndex = 28;
 			// 
-			// tbSearchApp
+			// lable13
 			// 
-			this.tbSearchApp.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-			this.tbSearchApp.Location = new System.Drawing.Point(15, 25);
-			this.tbSearchApp.Name = "tbSearchApp";
-			this.tbSearchApp.Size = new System.Drawing.Size(757, 29);
-			this.tbSearchApp.TabIndex = 29;
+			this.lable13.AutoSize = true;
+			this.lable13.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.lable13.Location = new System.Drawing.Point(34, 355);
+			this.lable13.Name = "lable13";
+			this.lable13.Size = new System.Drawing.Size(152, 24);
+			this.lable13.TabIndex = 35;
+			this.lable13.Text = "Номер объекта ";
+			// 
+			// lbObjId
+			// 
+			this.lbObjId.AutoSize = true;
+			this.lbObjId.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.lbObjId.Location = new System.Drawing.Point(192, 355);
+			this.lbObjId.Name = "lbObjId";
+			this.lbObjId.Size = new System.Drawing.Size(410, 24);
+			this.lbObjId.TabIndex = 36;
+			this.lbObjId.Text = "________________________________________";
 			// 
 			// FormCalendar
 			// 
@@ -829,7 +854,7 @@
 
 		private System.Windows.Forms.Panel panel2;
 		private System.Windows.Forms.PictureBox pBoxClose;
-		private System.Windows.Forms.Label lbDate;
+		private System.Windows.Forms.Label lbHeader;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Button btnSaveApp;
 		private System.Windows.Forms.Button btnDeleteApp;
@@ -877,5 +902,7 @@
 		private System.Windows.Forms.TabPage tabPageAppInDay;
 		private System.Windows.Forms.TextBox tbSearchApp;
 		private System.Windows.Forms.DataGridView dGVA;
+		private System.Windows.Forms.Label lable13;
+		private System.Windows.Forms.Label lbObjId;
 	}
 }

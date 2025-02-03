@@ -160,6 +160,12 @@ namespace Work2._1
 			OpenForm<FormCalendar>();
 			btnCalendar.BackColor = Color.FromArgb(12, 61, 92);
 		}
+
+		private void btnObjects_Click(object sender, EventArgs e)
+		{
+			OpenForm<FormObjects>();
+			btnObjects.BackColor = Color.FromArgb(12, 61, 92);
+		}
 		#endregion
 		//открывать новую форму с различными настройками
 		private void OpenForm<TForm>() where TForm : Form, new()
@@ -187,6 +193,10 @@ namespace Work2._1
 		{
 			if (Application.OpenForms["FormProfil"] == null)
 				btnProfil.BackColor = Color.FromArgb(4,55, 95);
+			if (Application.OpenForms["FormObjects"] == null)
+				btnObjects.BackColor = Color.FromArgb(4, 55, 95);
+			if (Application.OpenForms["FormCalendar"] == null)
+				btnCalendar.BackColor = Color.FromArgb(4, 55, 95);
 		}
 	}
 }

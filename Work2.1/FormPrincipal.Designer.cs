@@ -110,13 +110,14 @@
 			this.btnObjects.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnObjects.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnObjects.Image = ((System.Drawing.Image)(resources.GetObject("btnObjects.Image")));
-			this.btnObjects.Location = new System.Drawing.Point(0, 298);
+			this.btnObjects.Location = new System.Drawing.Point(0, 186);
 			this.btnObjects.Name = "btnObjects";
 			this.btnObjects.Size = new System.Drawing.Size(260, 50);
 			this.btnObjects.TabIndex = 6;
 			this.btnObjects.Text = "Объекты";
 			this.btnObjects.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.btnObjects.UseVisualStyleBackColor = true;
+			this.btnObjects.Click += new System.EventHandler(this.btnObjects_Click);
 			// 
 			// panel1
 			// 
@@ -254,7 +255,7 @@
 			this.btnHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnHistory.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnHistory.Image = ((System.Drawing.Image)(resources.GetObject("btnHistory.Image")));
-			this.btnHistory.Location = new System.Drawing.Point(0, 186);
+			this.btnHistory.Location = new System.Drawing.Point(-5, 298);
 			this.btnHistory.Name = "btnHistory";
 			this.btnHistory.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.btnHistory.Size = new System.Drawing.Size(260, 50);
@@ -279,7 +280,7 @@
 			this.btnProfil.RightToLeft = System.Windows.Forms.RightToLeft.No;
 			this.btnProfil.Size = new System.Drawing.Size(260, 50);
 			this.btnProfil.TabIndex = 0;
-			this.btnProfil.Text = "Профиль";
+			this.btnProfil.Text = "Клиенты";
 			this.btnProfil.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.btnProfil.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
 			this.btnProfil.UseVisualStyleBackColor = true;

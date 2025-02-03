@@ -1,24 +1,16 @@
 ﻿using Common.Cache;
 using Domen2;
-using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Work2._1
 {
 	public partial class FormCalendar : Form
 	{
-		int month, year;
-		bool selectMan, selectClient, selectObj;
+		int month, year, selectedAppoint;
+		bool selectMan, selectClient, selectObj, editApp;
+		DateTime date;
 		AppointmentModel app = new AppointmentModel();
 		public FormCalendar()
 		{
@@ -110,6 +102,7 @@ namespace Work2._1
 			tabControlCalend.TabPages.Remove(tabPageCalendar);
 			btnEditApp.Enabled = btnDeleteApp.Enabled = btnAddNewApp.Enabled = false;
 			btnSaveApp.Enabled = true;
+			lbHeader.Text = "Добавить новую встречу";
 
 		}
 
@@ -122,21 +115,29 @@ namespace Work2._1
 			btnMonBack.Visible = btnMonNext.Visible = btnAddNewApp.Visible = true;
 			btnMonBack.Enabled = btnMonNext.Enabled = btnAddNewApp.Enabled = true;
 			btnSaveApp.Enabled = btnEditApp.Enabled = btnDeleteApp.Enabled = false;
+			lbHeader.Text = DateTimeFormatInfo.CurrentInfo.GetMonthName(month) + " " + year;
 
 		}
 
 		private void btnSaveApp_Click(object sender, EventArgs e)
 		{
-			app.AddNewApp(Convert.ToInt32(dGVMS.SelectedRows[0].Cells[0].Value),
-				Convert.ToInt32(dGVCS.SelectedRows[0].Cells[0].Value),
-				Convert.ToInt32(dGWOS.SelectedRows[0].Cells[0].Value),
-				dTPDateApp.Value, dTPTimeApp.Value);
+			if (editApp == true)
+			{
+				app.EditAppoint(selectedAppoint, lbMan.Text, lbClient.Text, Convert.ToInt32(lbObjId.Text), dTPDateApp.Value, dTPTimeApp.Value);
+				editApp = false;
+			}
+			else
+			{
+				app.AddNewApp(lbMan.Text, lbClient.Text,
+					Convert.ToInt32(dGWOS.SelectedRows[0].Cells[0].Value),
+					dTPDateApp.Value, dTPTimeApp.Value);
+			}
 			tabControlCalend.TabPages.Add(tabPageCalendar);
 			tabControlCalend.TabPages.Remove(tabPageAddNewAppointment);
 			btnMonBack.Visible = btnMonNext.Visible = btnMonBack.Enabled = btnMonNext.Enabled = btnAddNewApp.Enabled = true;
 			btnSaveApp.Enabled = btnEditApp.Enabled = btnDeleteApp.Enabled = false;
 			pBBack.Visible = false;
-			lbDate.Text = "Календарь";
+			lbHeader.Text = DateTimeFormatInfo.CurrentInfo.GetMonthName(month) + " " + year;
 			daysContener.Controls.Clear();
 			AddControl();
 		}
@@ -152,7 +153,7 @@ namespace Work2._1
 			btnSelect.Visible = selectMan = true;
 			btnAddNewApp.Enabled = btnSaveApp.Enabled = btnEditApp.Enabled = btnDeleteApp.Enabled = false;
 			dGVMS.DataSource = app.GetClientManager();
-			lbDate.Text = "Выбрать менеджера";
+			lbHeader.Text = "Выбрать менеджера";
 		}
 
 		private void btnSelectClient_Click(object sender, EventArgs e)
@@ -166,7 +167,7 @@ namespace Work2._1
 			btnSelect.Visible = selectClient = true;
 			btnAddNewApp.Enabled = btnSaveApp.Enabled = btnEditApp.Enabled = btnDeleteApp.Enabled = false;
 			dGVCS.DataSource = app.GetAllClient();
-			lbDate.Text = "Выбрать клиента";
+			lbHeader.Text = "Выбрать клиента";
 		}
 
 		private void tbMangerSearch_TextChanged(object sender, EventArgs e)
@@ -196,6 +197,17 @@ namespace Work2._1
 				dGVCS.DataSource = app.GetObjectByValue(tbObjSearch.Text);
 		}
 
+		private void btnDeleteApp_Click(object sender, EventArgs e)
+		{
+			if (MessageBox.Show("Удалить встречу?","Удаление",MessageBoxButtons.OKCancel)==DialogResult.OK)
+			{
+				app.DeleteAppoint(Convert.ToInt32(dGVA.SelectedRows[0].Cells[0].Value));
+				MessageBox.Show("Встреча удалена");
+				dGVA.DataSource = app.GetAppointmentsByDate(date);
+				AddControl();
+			}
+		}
+
 		private void button1_Click(object sender, EventArgs e)
 		{
 			tabControlCalend.TabPages.Add(tabPageSelectObj);
@@ -207,12 +219,35 @@ namespace Work2._1
 			btnAddNewApp.Enabled = btnSaveApp.Enabled = btnEditApp.Enabled = btnDeleteApp.Enabled = false;
 			btnSelect.Visible = selectObj = true;
 			dGWOS.DataSource = app.GetAllObject();
-			lbDate.Text = "Выбрать объект";
+			lbHeader.Text = "Выбрать объект";
 		}
 
 		private void btnEditApp_Click(object sender, EventArgs e)
 		{
 			//редакировать евент
+			lbHeader.Text = "Редактировать";
+
+			editApp = true;
+			selectedAppoint = Convert.ToInt32(dGVA.SelectedRows[0].Cells[0].Value);
+			if (UserLoginCache.Position == Positions.Manager)
+			{
+				lbMan.Text = UserLoginCache.LastName;
+				btnSelectManger.Visible = false;
+			}
+			else
+			{
+				lbMan.Text = dGVA.SelectedRows[0].Cells[6].Value.ToString();
+			}
+			lbClient.Text = dGVA.SelectedRows[0].Cells[1].Value.ToString();
+			dTPDateApp.Value = Convert.ToDateTime(dGVA.SelectedRows[0].Cells[3].Value);
+			dTPTimeApp.Value = Convert.ToDateTime(dGVA.SelectedRows[0].Cells[4].Value);
+			lbObjId.Text = dGVA.SelectedRows[0].Cells[5].Value.ToString();
+			pBBack.Visible = true;
+			btnMonBack.Visible = btnMonNext.Visible = false;
+			tabControlCalend.TabPages.Add(tabPageAddNewAppointment);
+			tabControlCalend.TabPages.Remove(tabPageAppInDay);
+			btnEditApp.Enabled = btnAddNewApp.Enabled = false;
+			btnSaveApp.Enabled = btnDeleteApp.Enabled = true;
 
 		}
 
@@ -235,9 +270,10 @@ namespace Work2._1
 			}
 			if (selectObj)
 			{
+				lbObjId.Text = dGWOS.SelectedRows[0].Cells[0].Value.ToString();
 				lbObj.Text = "г. " + dGWOS.SelectedRows[0].Cells[4].Value.ToString()
 					+ " у. " + dGWOS.SelectedRows[0].Cells[5].Value.ToString()
-					+ " д. " + dGWOS.SelectedRows[0].Cells[5].Value.ToString();
+					+ " д. " + dGWOS.SelectedRows[0].Cells[6].Value.ToString();
 				selectObj = false;
 			}
 			btnSelect.Visible = false;
@@ -247,7 +283,7 @@ namespace Work2._1
 
 		private void AddControl()
 		{
-			lbDate.Text = DateTimeFormatInfo.CurrentInfo.GetMonthName(month) + " " + year;
+			lbHeader.Text = DateTimeFormatInfo.CurrentInfo.GetMonthName(month) + " " + year;
 			DateTime startMonth = new DateTime(year, month, 1);
 			int days = DateTime.DaysInMonth(year, month);
 			int dayOfTheWeek = Convert.ToInt32(startMonth.DayOfWeek.ToString("d"));
@@ -268,18 +304,18 @@ namespace Work2._1
 		private void SelectDay(object sender, EventArgs e)
 		{
 			var info = (UserControlDays)sender;
-			DateTime date = new DateTime(info.y, info.m, info.day);
+			 date = new DateTime(info.y, info.m, info.day);
 			if (info.count == 0)
-				MessageBox.Show("Встречи " + date.Date.ToShortDateString()+ "\nне запланированны", " ", MessageBoxButtons.OK);
+				MessageBox.Show("Встречи " + date.Date.ToShortDateString() + "\nне запланированны", " ", MessageBoxButtons.OK);
 			else
 			{
-				lbDate.Text = "Встречи за " + date.Date.ToShortDateString();// + info.day + '.' + info.m + '.' + info.y;
+				lbHeader.Text = "Встречи за " + date.Date.ToShortDateString();// + info.day + '.' + info.m + '.' + info.y;
 				pBBack.Visible = true;
 				btnMonBack.Visible = btnMonNext.Visible = false;
 				tabControlCalend.TabPages.Remove(tabPageCalendar);
 				tabControlCalend.TabPages.Add(tabPageAppInDay);
 				btnEditApp.Enabled = btnDeleteApp.Enabled = btnAddNewApp.Enabled = true;
-				btnSaveApp.Enabled = false;
+				btnSaveApp.Enabled = btnAddNewApp.Enabled = false;
 				dGVA.DataSource = app.GetAppointmentsByDate(date);
 			}
 		}
