@@ -13,6 +13,7 @@ namespace Common.Cache
 		public static string LastName { get; set;}
 		public static int Position { get; set;}
 		public static string Email { get; set;}
+		public static int Archive{ get; set;}
 		
 	}
 }

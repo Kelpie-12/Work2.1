@@ -2,6 +2,8 @@
 using System;
 using System.Windows.Forms;
 using Common.Cache;
+using System.Data;
+using System.Linq;
 namespace Work2._1
 {
 	public partial class FormProfil : Form
@@ -27,8 +29,8 @@ namespace Work2._1
 		void LoadManager()
 		{
 			cBoxClientManager.DataSource = clientModel.GetClientManager();
-			cBoxClientManager.DisplayMember = "LastName";
-			cBoxClientManager.ValueMember = "Id";
+			cBoxClientManager.DisplayMember = "Фамилия";
+			cBoxClientManager.ValueMember = "№";
 			cBoxClientManager.Text = "Выберите менeджера";
 			cBoxClientManager.SelectedIndex = -1;
 		}
@@ -51,11 +53,26 @@ namespace Work2._1
 
 		private void tbSearch_TextChanged(object sender, EventArgs e)
 		{
-			bool emptyValue = string.IsNullOrWhiteSpace(tbSearch.Text);
-			if (emptyValue)
-				LoadClient();
-			else
-				dataGridViewClient.DataSource = clientModel.GetClient(tbSearch.Text);
+			string[] values = (sender as TextBox).Text.Split(' ');
+			if (values.Length > 1)
+				values = values.Where(v => v != "").ToArray();
+			switch (values.Length)
+			{
+				case 1:
+					{
+						(dataGridViewClient.DataSource as DataTable).DefaultView.RowFilter =
+							string.Format("(Имя like '{0}%' or Фамилия like '{0}%')", values[0]);
+						//searchPattern = $"(last_name LIKE ('{values[0]}%') OR first_name LIKE ('{values[0]}%') OR middle_name LIKE ('{values[0]}%'))"; break;
+						break;
+					}
+				case 2:
+					{
+						(dataGridViewClient.DataSource as DataTable).DefaultView.RowFilter =
+							string.Format("(Имя like '{0}%' or Фамилия like '{0}%') and (Имя like '{1}%' or Фамилия like '{1}%')", values[0], values[1]);
+						break;
+					}//searchPattern = $"((last_name LIKE ('{values[0]}%') OR first_name LIKE ('{values[0]}%')) AND (first_name LIKE  ('{values[1]}%') OR middle_name LIKE ('{values[1]}%')))"; break;
+					 //	case 3: searchPattern = $"(last_name LIKE ('{values[0]}%') AND first_name LIKE ('{values[1]}%') OR middle_name LIKE ('{values[2]}%'))"; break;
+			}
 
 		}
 
@@ -112,7 +129,16 @@ namespace Work2._1
 		private void btnSaveClient_Click(object sender, EventArgs e)
 		{
 			if (addNewClient == true)
-				clientModel.AddNewClient(tBoxCiientFName.Text, tbClientLast.Text, cBoxClientManager.SelectedValue.ToString(), tbClientTelNumber.Text);
+			{
+				if (tbClientLast.Text == string.Empty)
+					MessageBox.Show("Укажите фамилилю клиента");
+				if (tBoxCiientFName.Text == string.Empty)
+					MessageBox.Show("Укажите имя клиента");
+				if (tbClientLast.Text != string.Empty && tBoxCiientFName.Text == string.Empty)
+					clientModel.AddNewClient(tBoxCiientFName.Text, tbClientLast.Text, cBoxClientManager.SelectedValue.ToString(), tbClientTelNumber.Text);
+
+
+			}
 			else
 				clientModel.EditClient(ClientCache.IdClient, tBoxCiientFName.Text, tbClientLast.Text, cBoxClientManager.SelectedValue.ToString(), tbClientTelNumber.Text);
 			addNewClient = false;
@@ -146,6 +172,6 @@ namespace Work2._1
 			e.Handled = true;
 		}
 
-		
+
 	}
 }

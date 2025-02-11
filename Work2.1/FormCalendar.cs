@@ -1,7 +1,9 @@
 ﻿using Common.Cache;
 using Domen2;
 using System;
+using System.Data;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Work2._1
@@ -172,34 +174,79 @@ namespace Work2._1
 
 		private void tbMangerSearch_TextChanged(object sender, EventArgs e)
 		{
-			bool emptyValue = string.IsNullOrWhiteSpace(tbMangerSearch.Text);
-			if (emptyValue)
-				LoadManager();
-			else
-				dGVMS.DataSource = app.GetManagerByValue(tbMangerSearch.Text);
+			string[] values = (sender as TextBox).Text.Split(' ');
+			if (values.Length > 1)
+				values = values.Where(v => v != "").ToArray();
+			switch (values.Length)
+			{
+				case 1:
+					{
+						(dGVMS.DataSource as DataTable).DefaultView.RowFilter =
+				string.Format("(Фамилия like '{0}%') or (Имя like '{0}%')", values[0]); //searchPattern = $"(last_name LIKE ('{values[0]}%') OR first_name LIKE ('{values[0]}%') OR middle_name LIKE ('{values[0]}%'))"; break;
+						break;
+					}
+				case 2:
+					{
+						(dGVMS.DataSource as DataTable).DefaultView.RowFilter =
+							string.Format("(Фамилия like '{0}%' or Имя like '{0}%') and (Фамилия like '{1}%' or Имя like '{1}%')", values[0], values[1]); //searchPattern = $"(last_name LIKE ('{values[0]}%') OR first_name LIKE ('{values[0]}%') OR middle_name LIKE ('{values[0]}%'))"; break;
+
+						break;
+					}//searchPattern = $"((last_name LIKE ('{values[0]}%') OR first_name LIKE ('{values[0]}%')) AND (first_name LIKE  ('{values[1]}%') OR middle_name LIKE ('{values[1]}%')))"; break;
+					 //case 3: searchPattern = $"(last_name LIKE ('{values[0]}%') AND first_name LIKE ('{values[1]}%') OR middle_name LIKE ('{values[2]}%'))"; break;
+			}			
 		}
 
 		private void tbClientSearch_TextChanged(object sender, EventArgs e)
 		{
-			bool emptyValue = string.IsNullOrWhiteSpace(tbClientSearch.Text);
-			if (emptyValue)
-				LoadClient();
-			else
-				dGVCS.DataSource = app.GetClientByValue(tbClientSearch.Text);
+			string[] values = (sender as TextBox).Text.Split(' ');
+			if (values.Length > 1)
+				values = values.Where(v => v != "").ToArray();
+			switch (values.Length)
+			{
+				case 1:
+					{
+						(dGVCS.DataSource as DataTable).DefaultView.RowFilter =
+							string.Format("(Имя like '{0}%' or Фамилия like '{0}%')", values[0]);
+						//searchPattern = $"(last_name LIKE ('{values[0]}%') OR first_name LIKE ('{values[0]}%') OR middle_name LIKE ('{values[0]}%'))"; break;
+						break;
+					}
+				case 2:
+					{
+						(dGVCS.DataSource as DataTable).DefaultView.RowFilter =
+							string.Format("(Имя like '{0}%' or Фамилия like '{0}%') and (Имя like '{1}%' or Фамилия like '{1}%')", values[0], values[1]);
+						break;
+					}//searchPattern = $"((last_name LIKE ('{values[0]}%') OR first_name LIKE ('{values[0]}%')) AND (first_name LIKE  ('{values[1]}%') OR middle_name LIKE ('{values[1]}%')))"; break;
+					 //	case 3: searchPattern = $"(last_name LIKE ('{values[0]}%') AND first_name LIKE ('{values[1]}%') OR middle_name LIKE ('{values[2]}%'))"; break;
+			}
 		}
 
 		private void tbObjSearch_TextChanged(object sender, EventArgs e)
 		{
-			bool emptyValue = string.IsNullOrWhiteSpace(tbObjSearch.Text);
-			if (emptyValue)
-				dGWOS.DataSource = app.GetAllObject();
-			else
-				dGVCS.DataSource = app.GetObjectByValue(tbObjSearch.Text);
+			string[] values = (sender as TextBox).Text.Split(' ');
+			if (values.Length > 1)
+				values = values.Where(v => v != "").ToArray();
+			switch (values.Length)
+			{
+				case 1:
+					{
+						(dGWOS.DataSource as DataTable).DefaultView.RowFilter =
+							string.Format("(Город like '{0}%' or Улица like '{0}%')", values[0]);
+						//searchPattern = $"(last_name LIKE ('{values[0]}%') OR first_name LIKE ('{values[0]}%') OR middle_name LIKE ('{values[0]}%'))"; break;
+						break;
+					}
+				case 2:
+					{
+						(dGWOS.DataSource as DataTable).DefaultView.RowFilter =
+							string.Format("(Город like '{0}%' or Улица like '{0}%') and (Город like '{1}%' or Улица like '{1}%')", values[0], values[1]);
+						break;
+					}//searchPattern = $"((last_name LIKE ('{values[0]}%') OR first_name LIKE ('{values[0]}%')) AND (first_name LIKE  ('{values[1]}%') OR middle_name LIKE ('{values[1]}%')))"; break;
+					 //	case 3: searchPattern = $"(last_name LIKE ('{values[0]}%') AND first_name LIKE ('{values[1]}%') OR middle_name LIKE ('{values[2]}%'))"; break;
+			}
 		}
 
 		private void btnDeleteApp_Click(object sender, EventArgs e)
 		{
-			if (MessageBox.Show("Удалить встречу?","Удаление",MessageBoxButtons.OKCancel)==DialogResult.OK)
+			if (MessageBox.Show("Удалить встречу?", "Удаление", MessageBoxButtons.OKCancel) == DialogResult.OK)
 			{
 				app.DeleteAppoint(Convert.ToInt32(dGVA.SelectedRows[0].Cells[0].Value));
 				MessageBox.Show("Встреча удалена");
@@ -297,14 +344,17 @@ namespace Work2._1
 			{
 				UserControlDays ucd = new UserControlDays();
 				ucd.Days(i, month, year);
+				//ucd.Anchor=AnchorStyles.Top| AnchorStyles.Bottom | AnchorStyles.Left|AnchorStyles.Right;
 				daysContener.Controls.Add(ucd);
+
 				ucd.Click += SelectDay;
 			}
+			
 		}
 		private void SelectDay(object sender, EventArgs e)
 		{
 			var info = (UserControlDays)sender;
-			 date = new DateTime(info.y, info.m, info.day);
+			date = new DateTime(info.y, info.m, info.day);
 			if (info.count == 0)
 				MessageBox.Show("Встречи " + date.Date.ToShortDateString() + "\nне запланированны", " ", MessageBoxButtons.OK);
 			else

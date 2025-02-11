@@ -18,27 +18,12 @@ namespace Domen2
 		public DataTable GetClientManager()
 		{
 			return userData.GetClientManger();
-		}
-		public DataTable GetClientForManager(int id)
-		{
-			return userData.GetClientForManager(id);
-		}
-		public DataTable GetClientByValue(string search)
-		{
-			return userData.GetClient(search);
-		}
+		}	
 		public DataTable GetAllClient()
 		{
 			return userData.GetAllClient();
-		}
-		public DataTable GetManagerByValue(string search)
-		{
-			return userData.GetManagerByValue(search);
-		}
-		public DataTable GetObjectByValue(string search)
-		{
-			return userData.GetObjectByValue(search);
-		}
+		}		
+		
 		public DataTable GetAllObject() 
 		{
 			return userData.GetAllObject(); 

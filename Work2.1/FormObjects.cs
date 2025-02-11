@@ -1,45 +1,74 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using Common.Cache;
+using Domen2;
+using System;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Common.Cache;
-using Domen2;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Work2._1
 {
 	public partial class FormObjects : Form
 	{
 		ObjectsModel obj = new ObjectsModel();
-		bool selectObj, selectMan;
+		bool selectObj, selectMan, filter, filt;
+		string filtersql;
+		int typeSearch = -1;
 		public FormObjects()
 		{
 			InitializeComponent();
-			LoadObject();
+			LoadObjectType(cbTipObj);
+			dataGridViewObject.DataSource = obj.GetAllObject();
 			tcObjects.TabPages.Remove(tabPageObjectSelect);
 			tcObjects.TabPages.Remove(tabPageSelectManager);
 		}
 
 		private void tbSearch_TextChanged(object sender, EventArgs e)
 		{
-			bool emptyValue = string.IsNullOrWhiteSpace(tbSearch.Text);
-			if (emptyValue)
-				LoadObject();
-			else
-				dataGridViewObject.DataSource = obj.GetObjectByValue(tbSearch.Text);
+			string[] values = (sender as TextBox).Text.Split(' ');
+			if (values.Length > 1)
+				values = values.Where(v => v != "").ToArray();
+			switch (values.Length)
+			{
+				case 1:
+					{
+						if (typeSearch == -1)
+						{
+							(dataGridViewObject.DataSource as DataTable).DefaultView.RowFilter =
+								string.Format("(Менеджер like '{0}%' or [Тип объекта] like '{0}%')", values[0]);
+						}
+						else //if (typeSearch == 0)
+						{
+							(dataGridViewObject.DataSource as DataTable).DefaultView.RowFilter =
+								string.Format("(Город like '{0}%' or [Улица] like '{0}%')", values[0]);
+
+						}
+						break;
+					}
+				case 2:
+					{
+						if (typeSearch == -1)
+						{
+							(dataGridViewObject.DataSource as DataTable).DefaultView.RowFilter =
+								string.Format("(Менеджер like '{0}%' or [Тип объекта] like '{0}%') and (Менеджер like '{1}%' or [Тип объекта] like '{1}%')", values[0], values[1]);
+						}
+						else
+						{
+							(dataGridViewObject.DataSource as DataTable).DefaultView.RowFilter =
+								string.Format("(Город like '{0}%' or [Улица] like '{0}%') and (Город like '{1}%' or [Улица] like '{1}%')", values[0], values[1]);
+
+						}
+						break;
+					}
+			}
 		}
-		void LoadObject()
+		void LoadObjectType(ComboBox cb)
 		{
-			dataGridViewObject.DataSource = obj.GetAllObject();
-			cbTipObj.DataSource = obj.GetTypeObjects();
-			cbTipObj.DisplayMember = "name";
-			cbTipObj.ValueMember = "id";
+			//dataGridViewObject.DataSource = obj.GetAllObject();
+			cb.DataSource = obj.GetTypeObjects();
+			cb.DisplayMember = "name";
+			cb.ValueMember = "id";
 		}
 
 		private void pBoxClose_Click(object sender, EventArgs e)
@@ -74,7 +103,7 @@ namespace Work2._1
 				tcObjects.TabPages.Add(tabPageObjectSelect);
 				selectObj = true;
 				GetIndexTypeObjects(dataGridViewObject.SelectedRows[0].Cells[7].Value.ToString());
-				
+
 				if (UserLoginCache.Position == Positions.Manager)
 					btnSelectManger.Visible = false;
 				else
@@ -104,29 +133,35 @@ namespace Work2._1
 					else
 						obj.AddNewObjects(null, lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(cbTipObj.SelectedValue), Convert.ToInt32(tbFlat.Text));
 				}
-				selectObj = false;
-				LoadObject();
+				selectObj = cbTipObj.Enabled = false;
+				dataGridViewObject.DataSource = obj.GetAllObject();
+				LoadObjectType(cbTipObj);
 				btnSearch_Click(sender, e);
 			}
 		}
 
+
 		private void btnSelectPhpto_Click(object sender, EventArgs e)
 		{
-			using (var openFileDialog = new OpenFileDialog())
-			{
-				openFileDialog.Filter = "Image files (*.jpg,*.jpeg,*.png) | *.jpg; *.jpeg; *.png ";
-				openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-				if (openFileDialog.ShowDialog() == DialogResult.OK)
-				{
-					//pictureBoxPhoto.Image = System.Drawing.Image.FromFile(openFileDialog.FileName);
-				}
-
-			}
+			FormViewPhoro form = new FormViewPhoro();
+			form.TopMost = true;
+			form.Show();
+			//using (var openFileDialog = new OpenFileDialog())
+			//{
+			//	openFileDialog.Filter = "Image files (*.jpg,*.jpeg,*.png) | *.jpg; *.jpeg; *.png ";
+			//	openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+			//	if (openFileDialog.ShowDialog() == DialogResult.OK)
+			//	{
+			//		//pictureBoxPhoto.Image = System.Drawing.Image.FromFile(openFileDialog.FileName);
+			//	}
+			//
+			//}
 		}
 
 		private void btnEditClient_Click(object sender, EventArgs e)
 		{
-			btnSelectManger.Enabled = true;
+			btnSelectManger.Enabled = cbTipObj.Enabled = true;
+
 			if (selectObj == false)
 			{
 				btnSelectClient_Click(sender, e);
@@ -141,11 +176,7 @@ namespace Work2._1
 			tcObjects.TabPages.Add(tabPageSelectManager);
 			btnSearch.Enabled = btnAddNewClient.Enabled = btnDeleteClient.Enabled = btnSaveClient.Enabled = btnEditClient.Enabled = false;
 			btnSelect.Enabled = true;
-			bool emptyValue = string.IsNullOrWhiteSpace(tbMangerSearch.Text);
-			if (emptyValue)
-				dGVMS.DataSource = obj.GetAllManager();
-			else
-				dGVMS.DataSource = obj.GetManagerByValue(tbMangerSearch.Text);
+			dGVMS.DataSource = obj.GetAllManager();
 			selectMan = true;
 		}
 
@@ -175,6 +206,7 @@ namespace Work2._1
 			tbCiti.Clear(); tbFlat.Clear(); tbHome.Clear(); tbStreet.Clear(); tbText.Clear();
 			tcObjects.TabPages.Remove(tabPageObjSearch);
 			tcObjects.TabPages.Add(tabPageObjectSelect);
+			cbTipObj.Enabled = true;
 
 		}
 
@@ -199,13 +231,105 @@ namespace Work2._1
 			else
 			{
 				obj.DeleteObjects(Convert.ToInt32(dataGridViewObject.SelectedRows[0].Cells[0].Value));
-				LoadObject();
+				LoadObjectType(cbTipObj);
+				dataGridViewObject.DataSource = obj.GetAllObject();
+			}
+		}
+
+		private void FormObjects_Load(object sender, EventArgs e)
+		{
+
+		}
+
+		private void tbMangerSearch_TextChanged(object sender, EventArgs e)
+		{
+			string[] values = (sender as TextBox).Text.Split(' ');
+			if (values.Length > 1)
+				values = values.Where(v => v != "").ToArray();
+			switch (values.Length)
+			{
+				case 1:
+					{
+						(dGVMS.DataSource as DataTable).DefaultView.RowFilter =
+				string.Format("(Фамилия like '{0}%') or (Имя like '{0}%')", values[0]); //searchPattern = $"(last_name LIKE ('{values[0]}%') OR first_name LIKE ('{values[0]}%') OR middle_name LIKE ('{values[0]}%'))"; break;
+						break;
+					}
+				case 2:
+					{
+						(dGVMS.DataSource as DataTable).DefaultView.RowFilter =
+							string.Format("(Фамилия like '{0}%' or Имя like '{0}%') and (Фамилия like '{1}%' or Имя like '{1}%')", values[0], values[1]); //searchPattern = $"(last_name LIKE ('{values[0]}%') OR first_name LIKE ('{values[0]}%') OR middle_name LIKE ('{values[0]}%'))"; break;
+
+						break;
+					}//searchPattern = $"((last_name LIKE ('{values[0]}%') OR first_name LIKE ('{values[0]}%')) AND (first_name LIKE  ('{values[1]}%') OR middle_name LIKE ('{values[1]}%')))"; break;
+					 //case 3: searchPattern = $"(last_name LIKE ('{values[0]}%') AND first_name LIKE ('{values[1]}%') OR middle_name LIKE ('{values[2]}%'))"; break;
+			}
+		}
+
+		private void btnRefreshFilter_Click(object sender, EventArgs e)
+		{
+			dataGridViewObject.DataSource = obj.GetAllObject();
+			typeSearch = -1;
+		}
+
+		//private void cLBFilterSarch_SelectedIndexChanged(object sender, EventArgs e)
+		//{
+		//	int index = 0;
+		//	for (int i = 0; i < cLBFilterSarch.Items.Count; i++)
+		//	{
+		//		if (cLBFilterSarch.GetItemChecked(i))
+		//		{
+		//			index++;
+		//			//if (filt == true && i != cLBFilterSarch.Items.Count-1)
+		//			//{
+		//			//	filtersql += " or ";
+		//			//}
+		//			//if (filt == false)
+		//			//	filtersql += " and ";
+		//			//filt = true;
+		//			//filtersql += $" (TypeObjects.id = {i})";
+		//		}
+		//	}
+		//	dataGridViewObject.DataSource = obj.GetAllObject();
+		//	(dataGridViewObject.DataSource as DataTable).DefaultView.RowFilter =
+		//		string.Format("(Тип like '{0}%') ", "Квартира");//and (Тип like '{0}%')
+		//	filtersql = string.Empty;
+		//}
+		private void LoadFilter()
+		{
+			//BindingSource type = new BindingSource();
+			//var d=(dataGridViewObject.DataSource as DataTable).Columns[7].Table;
+			//type.DataSource = d;
+			//cbFilterType.DataSource = d;
+			LoadObjectType(cbFilterType);
+		}
+		private async void bntFilter_Click(object sender, EventArgs e)
+		{
+			if (panelFilter.Location.Y < 15)
+			{
+				while (panelFilter.Location.Y < 15)
+				{
+					await Task.Delay(1);
+					panelFilter.Location = new Point(panelFilter.Location.X, panelFilter.Location.Y + 10);
+					filter = true;
+				}
+				LoadFilter();
+			}
+			else
+			{
+				while (panelFilter.Location.Y > -150)
+				{
+					await Task.Delay(1);
+					panelFilter.Location = new Point(panelFilter.Location.X, panelFilter.Location.Y - 10);
+					filter = false;
+				}
+				dataGridViewObject.DataSource = obj.GetObjectsByType(Convert.ToInt32(cbFilterType.GetItemText(cbFilterType.SelectedIndex)));
+				typeSearch = Convert.ToInt32(cbFilterType.GetItemText(cbFilterType.SelectedIndex));
 			}
 		}
 
 		private int GetIndexTypeObjects(string t)
 		{
-			
+
 			for (int i = 0; i < cbTipObj.Items.Count; i++)
 			{
 				cbTipObj.SelectedIndex = i;

@@ -76,6 +76,12 @@
     <Compile Include="FormProfil.Designer.cs">
       <DependentUpon>FormProfil.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormViewPhoro.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormViewPhoro.Designer.cs">
+      <DependentUpon>FormViewPhoro.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserControlBlank.cs">
@@ -104,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormProfil.resx">
       <DependentUpon>FormProfil.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormViewPhoro.resx">
+      <DependentUpon>FormViewPhoro.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

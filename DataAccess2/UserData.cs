@@ -36,6 +36,9 @@ namespace DataAccess2
 							UserLoginCache.LastName = reader.GetString(4);
 							UserLoginCache.Email = reader.GetString(5);
 							UserLoginCache.Position = reader.GetInt32(6);
+							UserLoginCache.Archive = reader.GetInt32(7);
+							if (UserLoginCache.Archive == 0 && UserLoginCache.Position == 2)
+								return false;
 						}
 						return true;
 					}
@@ -55,11 +58,13 @@ namespace DataAccess2
 					cmd.Connection = conn;
 					if (Positions.Manager == UserLoginCache.Position)
 					{
-						cmd.CommandText = "use ComopanyProgect; select Client.Id as [№],Client.FirstName as[Имя], Client.LastName as [Фамилия], Manager.LastName as [Менеджер], Client.TelNumber as [Телефон] from Client,Manager where Client.Manager=Manager.Id and  Manager.LastName=@cacheMan";
+						cmd.CommandText = "use ComopanyProgect; select Client.Id as [№],Client.FirstName as[Имя], Client.LastName as [Фамилия], Manager.LastName as [Менеджер], Client.TelNumber as [Телефон] " +
+							"from Client,Manager where Client.Manager=Manager.Id and  Manager.LastName=@cacheMan and Client.Archive!=0";
 						cmd.Parameters.AddWithValue("@cacheMan", UserLoginCache.LastName);
 					}
 					else
-						cmd.CommandText = "use ComopanyProgect; select Client.Id as [№],Client.FirstName as[Имя], Client.LastName as [Фамилия], Manager.LastName as [Менеджер], Client.TelNumber as [Телефон] from Client,Manager where Client.Manager=Manager.Id ";
+						cmd.CommandText = "use ComopanyProgect; select Client.Id as [№],Client.FirstName as[Имя], Client.LastName as [Фамилия], Manager.LastName as [Менеджер], Client.TelNumber as [Телефон] " +
+							"from Client,Manager where Client.Manager=Manager.Id and Client.Archive!=0 and Manager.Archive!=0";
 					cmd.CommandType = System.Data.CommandType.Text;
 					SqlDataReader reader = cmd.ExecuteReader();
 
@@ -92,7 +97,7 @@ namespace DataAccess2
 				{
 					cmd.Connection = conn;
 					cmd.CommandText = "use ComopanyProgect; select Id as [№],FirstName as [Имя], " +
-						"Manager.LastName as [Фамилия] from Manager ";
+						"Manager.LastName as [Фамилия] from Manager where Manager.Archive!=0";
 					cmd.CommandType = System.Data.CommandType.Text;
 					SqlDataReader reader = cmd.ExecuteReader();
 					DataTable table = new DataTable();
@@ -111,46 +116,6 @@ namespace DataAccess2
 					}
 					else
 						return table;
-
-				}
-			}
-		}
-		public DataTable GetManagerByValue(string search)
-		{
-			int Id = int.TryParse(search, out _) ? Convert.ToInt32(search) : 0;
-			string LastName = search;
-			string FirstName = search;
-			using (var conn = GetConnection())
-			{
-				conn.Open();
-				using (var cmd = new SqlCommand())
-				{
-					cmd.Connection = conn;
-					cmd.CommandText = "use ComopanyProgect; select Id as [№],FirstName as [Имя], Manager.LastName as [Фамилия] from Manager " +
-						"where ((Manager.FirstName like @name +'%')or (Manager.LastName like  @last + '%') or (Manager.Id =  @id)) ";
-					cmd.Parameters.Add("@id", SqlDbType.Int).Value = Id;
-					cmd.Parameters.Add("@name", SqlDbType.NVarChar, 150).Value = FirstName;
-					cmd.Parameters.Add("@last", SqlDbType.NVarChar, 150).Value = LastName;
-					cmd.CommandType = System.Data.CommandType.Text;
-					SqlDataReader reader = cmd.ExecuteReader();
-					DataTable table = new DataTable();
-					if (reader.HasRows)
-					{
-						for (int i = 0; i < reader.FieldCount; i++)
-							table.Columns.Add(reader.GetName(i));
-						while (reader.Read())
-						{
-
-							DataRow row = table.NewRow();
-							for (int i = 0; i < reader.FieldCount; i++)
-								row[i] = reader[i];
-							table.Rows.Add(row);
-
-						}
-					}
-					return table;
-					//else
-					//	return table;
 
 				}
 			}
@@ -254,15 +219,14 @@ namespace DataAccess2
 				using (var cmd = new SqlCommand())
 				{
 					cmd.Connection = conn;
-					cmd.CommandText = "use ComopanyProgect; delete from Client where Id=@id ";
+					cmd.CommandText = "use ComopanyProgect; update Client set Client.Archive =0 where Id=@id ";
 					cmd.CommandType = System.Data.CommandType.Text;
 					cmd.Parameters.AddWithValue("@id", id);
 					SqlDataReader reader = cmd.ExecuteReader();
 				}
 			}
 		}
-
-		public DataTable GetClientForManager(int man)
+		public DataTable GetAllObject()
 		{
 			using (var conn = GetConnection())
 			{
@@ -270,12 +234,33 @@ namespace DataAccess2
 				using (var cmd = new SqlCommand())
 				{
 					cmd.Connection = conn;
-					cmd.CommandText = "use ComopanyProgect; select  Client.LastName,Client.Id " +
-						"from Client,Manager where Client.Manager=Manager.Id and Manager.Id=@id";
-					cmd.Parameters.AddWithValue("@id", man);
+					if (UserLoginCache.Position == Positions.Manager)
+					{
+						cmd.CommandText = "use ComopanyProgect; select [Objects].Id as [№], " +
+						" Manager.LastName as [Менеджер], " +
+						" TypeObjects.name as [Тип объекта], Offer.name as [Тип сделки]" +
+						" from Manager,[Objects],TypeObjects,Offer where [Objects].ManagerId=Manager.Id " +
+						" and Manager.LastName=@man and [Objects].TypeObjects=TypeObjects.id and [Objects].Archive=1 and [Objects].TypeOffer=Offer.id; ";
+						cmd.Parameters.AddWithValue("@man", UserLoginCache.LastName);
+					}
+					else
+					{
+						cmd.CommandText = "use ComopanyProgect; select [Objects].Id as [№], " +
+							" Manager.LastName as [Менеджер], " +
+							" TypeObjects.name as [Тип объекта], Offer.name as [Тип сделки]" +
+							" from Manager,[Objects],TypeObjects,Offer where [Objects].ManagerId=Manager.Id " +
+							" and [Objects].TypeObjects=TypeObjects.id and [Objects].Archive=1 and [Objects].TypeOffer=Offer.id; ";
+
+
+						//cmd.CommandText = "use ComopanyProgect; select [Objects].Id as [№], " +
+						//	" Manager.LastName as [Менеджер], [Objects].[Text] as [Описание]," +
+						//	" [Objects].AddressCiti as [Город],[Objects].AddressStreet as [Улица]," +
+						//	" [Objects].AddressNumberHouse as [Дом]," +
+						//	" [Objects].AdressNumberFlat as [Квартира], TypeObjects.name as [Тип] " +
+						//	" from Manager,[Objects],TypeObjects where [Objects].ManagerId=Manager.Id and [Objects].TypeObjects=TypeObjects.id; ";
+					}
 					cmd.CommandType = System.Data.CommandType.Text;
 					SqlDataReader reader = cmd.ExecuteReader();
-
 					DataTable table = new DataTable();
 					if (reader.HasRows)
 					{
@@ -296,8 +281,115 @@ namespace DataAccess2
 				}
 			}
 		}
+		public DataTable GetObjectsByType(int type, int archive = 1)
+		{
 
-		public DataTable GetAllObject()
+			using (var conn = GetConnection())
+			{
+				conn.Open();
+				using (var cmd = new SqlCommand())
+				{
+					cmd.Connection = conn;
+					string sql = string.Empty;
+					if (type == 0)
+					{
+						sql = "use ComopanyProgect; select [Apartments].IdObject as [ID], ";
+						if (UserLoginCache.Position != Positions.Manager)
+							sql += " Manager.LastName as [Манеджер], ";
+						sql += " Apartments.Citi as [Город], [Apartments].[Street] as [Улица]," +
+						" [Apartments].House as [Дом],[Apartments].Apartment as [Квартира]," +
+						" [Apartments].Floor as [Этаж]," +
+						" [Apartments].AreaHouse as [Площадь (М)],Apartments.Rooms as [Кол-во комнат], Apartments.Price as [Цена]" +
+						" from Apartments,Manager,[Objects] where ";
+						if (UserLoginCache.Position == Positions.Manager)
+							sql += " Manager.LastName=@man and [Objects].ManagerId=@manId and";
+						else
+							sql += " [Objects].ManagerId=Manager.Id and";
+						sql += " Apartments.IdObject=[Objects].Id " +
+						$" and Apartments.Archive={archive};";
+					}
+					else if (type == 1)
+					{
+						sql = "use ComopanyProgect; select [House].IdObject as [ID], ";
+						if (UserLoginCache.Position != Positions.Manager)
+							sql += " Manager.LastName as [Манеджер], ";
+						sql += " House.Citi as [Город], [House].[Street] as [Улица]," +
+						" [House].House as [Дом],[House].AreaHouse as [Площадь дома (М)]," +
+						" [House].AreaPlot as [Площадь участка (М)]," +
+						" [House].Floor as [Этаж],House.Rooms as [Кол-во комнат], House.Price as [Цена]" +
+						" from [Objects],House,Manager where ";
+						if (UserLoginCache.Position == Positions.Manager)
+							sql += " Manager.LastName=@man and [Objects].ManagerId=@manId and";
+						else
+							sql += " [Objects].ManagerId=Manager.Id and";
+						sql += " House.IdObject=[Objects].Id " +
+						$" and House.Archive={archive};";
+					}
+					else if (type == 2)
+					{
+						sql = "use ComopanyProgect; select [Land].IdObjects as [ID], ";
+						if (UserLoginCache.Position != Positions.Manager)
+							sql += " Manager.LastName as [Манеджер], ";
+						sql += " Land.Citi as [Город], [Land].[Street] as [Улица]," +
+						" [Land].House as [Дом], [Land].Coordinates as [Координаты]," +
+						" Land.LandCategory as [Категория земель],Land.Area as [Площадь (м)], Land.Price as [Цена] " +
+						" from [Objects],Land,Manager where ";
+						if (UserLoginCache.Position == Positions.Manager)
+							sql += " Manager.LastName=@man and [Objects].ManagerId=@manId and";//добавить манеджера для админа
+						else
+							sql += " [Objects].ManagerId=Manager.Id and";
+						sql += " Land.IdObjects=[Objects].Id " +
+						$" and Land.Archive={archive};";
+
+					}
+					else if (type == 3)
+					{
+						sql = "use ComopanyProgect; select [CommercialRealEstates].IdObjects as [ID], ";
+						if (UserLoginCache.Position != Positions.Manager)
+							sql += " Manager.LastName as [Манеджер], ";
+						sql += " CommercialRealEstates.Citi as [Город], [CommercialRealEstates].[Street] as [Улица]," +
+							" [CommercialRealEstates].House as [Дом], [TypeObjects].name as [Тип недвижимости]," +
+							" CommercialRealEstates.Area as [Площадь (м)], CommercialRealEstates.Price as [Цена] " +
+							" from [Objects],CommercialRealEstates,Manager,TypeObjects where ";//вставить вклейку если ищет админ
+						if (UserLoginCache.Position == Positions.Manager)
+							sql += " Manager.LastName=@man and [Objects].ManagerId=@manId and ";//добавить манеджера для админа
+						else
+							sql += " [Objects].ManagerId=Manager.Id and";
+						sql += " CommercialRealEstates.IdObjects=[Objects].Id  and TypeObjects.id=CommercialRealEstates.ObjectType" +
+							$" and CommercialRealEstates.Archive={archive};";
+					}
+					else
+					{
+						sql = "use ComopanyProgect; select * from TypeObjects";
+					}
+					cmd.CommandText = sql;
+					cmd.Parameters.AddWithValue("@man", UserLoginCache.LastName);
+					if (UserLoginCache.Position == Positions.Manager)
+						cmd.Parameters.AddWithValue("@manId", GetManClientIdByName(UserLoginCache.LastName, "-1").Rows[0][0]);
+					cmd.CommandType = System.Data.CommandType.Text;
+					cmd.Parameters.AddWithValue("@type", type);
+					SqlDataReader reader = cmd.ExecuteReader();
+					DataTable table = new DataTable();
+					if (reader.HasRows)
+					{
+						for (int i = 0; i < reader.FieldCount; i++)
+							table.Columns.Add(reader.GetName(i));
+						while (reader.Read())
+						{
+							DataRow row = table.NewRow();
+							for (int i = 0; i < reader.FieldCount; i++)
+								row[i] = reader[i];
+							table.Rows.Add(row);
+						}
+						return table;
+					}
+					else
+						return table;
+
+				}
+			}
+		}
+		public DataTable GetAllObject(int type)
 		{
 			using (var conn = GetConnection())
 			{
@@ -312,7 +404,8 @@ namespace DataAccess2
 						" [Objects].AddressCiti as [Город],[Objects].AddressStreet as [Улица]," +
 						" [Objects].AddressNumberHouse as [Дом]," +
 						" [Objects].AdressNumberFlat as [Квартира],TypeObjects.name as [Тип]" +
-						" from Manager,[Objects],TypeObjects where [Objects].ManagerId=Manager.Id and Manager.LastName=@man and [Objects].TypeObjects=TypeObjects.id; ";
+						" from Manager,[Objects],TypeObjects where [Objects].ManagerId=Manager.Id and" +
+						" Manager.LastName=@man and [Objects].TypeObjects=TypeObjects.id and TypeObjects.id=@type; ";
 						cmd.Parameters.AddWithValue("@man", UserLoginCache.LastName);
 					}
 					else
@@ -322,9 +415,11 @@ namespace DataAccess2
 							" [Objects].AddressCiti as [Город],[Objects].AddressStreet as [Улица]," +
 							" [Objects].AddressNumberHouse as [Дом]," +
 							" [Objects].AdressNumberFlat as [Квартира], TypeObjects.name as [Тип] " +
-							" from Manager,[Objects],TypeObjects where [Objects].ManagerId=Manager.Id and [Objects].TypeObjects=TypeObjects.id; ";
+							" from Manager,[Objects],TypeObjects where [Objects].ManagerId=Manager.Id and" +
+							" [Objects].TypeObjects=TypeObjects.id and TypeObjects.id=@type; ";
 					}
 					cmd.CommandType = System.Data.CommandType.Text;
+					cmd.Parameters.AddWithValue("@type", type);
 					SqlDataReader reader = cmd.ExecuteReader();
 					DataTable table = new DataTable();
 					if (reader.HasRows)
@@ -346,67 +441,6 @@ namespace DataAccess2
 				}
 			}
 		}
-		public DataTable GetObjectByValue(string search)
-		{
-			int Id = int.TryParse(search, out _) ? Convert.ToInt32(search) : 0;
-			string citi = search;
-			string street = search;
-			using (var conn = GetConnection())
-			{
-				conn.Open();
-				using (var cmd = new SqlCommand())
-				{
-					cmd.Connection = conn;
-					if (UserLoginCache.Position == Positions.Manager)
-					{
-
-						cmd.CommandText = "use ComopanyProgect; select [Objects].Id as [№], " +
-							" Manager.LastName as [Менеджер], [Objects].[Text] as [Описание]," +
-							" [Objects].AddressCiti as [Город],[Objects].AddressStreet as [Улица]," +
-							" [Objects].AddressNumberHouse as [Дом]," +
-							" [Objects].AdressNumberFlat as [Квартира] " +
-							" from Manager,[Objects] where Manager.id=[Objects].ManagerId and Manager.LastName=@man and " +
-							" ([Objects].AddressCiti like @citi + '%' or [Objects].AddressStreet like @street + '%')";// or [Objects].Id like @Id + '%';
-						cmd.Parameters.AddWithValue("@man", UserLoginCache.LastName);
-					}
-					else
-					{
-						cmd.CommandText = "use ComopanyProgect; select [Objects].Id as [№], " +
-							" Manager.LastName as [Менеджер], [Objects].[Text] as [Описание]," +
-							" [Objects].AddressCiti as [Город],[Objects].AddressStreet as [Улица]," +
-							" [Objects].AddressNumberHouse as [Дом]," +
-							" [Objects].AdressNumberFlat as [Квартира] " +
-							" from Manager,[Objects] where Manager.id=[Objects].ManagerId and " +
-							" ([Objects].AddressCiti like @citi + '%' or [Objects].AddressStreet like @street + '%')";
-					}
-
-					cmd.Parameters.AddWithValue("@citi", citi);
-					cmd.Parameters.AddWithValue("@street", street);
-					cmd.Parameters.AddWithValue("@Id", Id);
-					cmd.CommandType = System.Data.CommandType.Text;
-					SqlDataReader reader = cmd.ExecuteReader();
-
-					DataTable table = new DataTable();
-					if (reader.HasRows)
-					{
-						for (int i = 0; i < reader.FieldCount; i++)
-							table.Columns.Add(reader.GetName(i));
-						while (reader.Read())
-						{
-							DataRow row = table.NewRow();
-							for (int i = 0; i < reader.FieldCount; i++)
-								row[i] = reader[i];
-							table.Rows.Add(row);
-						}
-						return table;
-					}
-					else
-						return table;
-
-				}
-			}
-		}
-
 		public DataTable GetAppointmentsByValue(DateTime date)
 		{
 			using (var conn = GetConnection())
@@ -455,7 +489,7 @@ namespace DataAccess2
 			}
 
 		}
-		public void AddNewObjects(Bitmap image, string man, string text, string addCiti, string addStr, int addHome,  int type,int addFlat = -1)
+		public void AddNewObjects(Bitmap image, string man, string text, string addCiti, string addStr, int addHome, int type, int addFlat = -1)
 		{
 			DataTable table = GetManClientIdByName(man, "-1");
 			using (var con = GetConnection())
@@ -560,7 +594,7 @@ namespace DataAccess2
 				using (var cmd = new SqlCommand())
 				{
 					cmd.Connection = conn;
-					cmd.CommandText = "use ComopanyProgect; delete from Objects where Id=@id ";
+					cmd.CommandText = "use ComopanyProgect; update Objects set Objects.Archive=0  where Id=@id ";
 					cmd.CommandType = System.Data.CommandType.Text;
 					cmd.Parameters.AddWithValue("@id", id);
 					SqlDataReader reader = cmd.ExecuteReader();
@@ -672,7 +706,7 @@ namespace DataAccess2
 				using (var cmd = new SqlCommand())
 				{
 					cmd.Connection = conn;
-					cmd.CommandText = "use ComopanyProgect; delete from Appointments where Id=@id ";
+					cmd.CommandText = "use ComopanyProgect; update Appointments set Appointments.Archive=0 where Id=@id ";
 					cmd.CommandType = System.Data.CommandType.Text;
 					cmd.Parameters.AddWithValue("@id", id);
 					SqlDataReader reader = cmd.ExecuteReader();

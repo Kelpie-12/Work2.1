@@ -84,7 +84,7 @@ namespace Work2._1
 
 		private void btnLogIn_Click(object sender, EventArgs e)
 		{
-			if (tBoxUserName.Text != "Username"&& tBoxUserName.TextLength>2)
+			if (tBoxUserName.Text != "Username" && tBoxUserName.TextLength > 2)
 			{
 				if (tBoxPassword.Text != "Password")
 				{
@@ -93,17 +93,22 @@ namespace Work2._1
 					if (validLogin == true)
 					{
 						FormPrincipal mainMenu = new FormPrincipal();
-					//	MessageBox.Show("Welcome\n"+UserLoginCache.FirstName+" "+UserLoginCache.LastName);
+						//	MessageBox.Show("Welcome\n"+UserLoginCache.FirstName+" "+UserLoginCache.LastName);
 						mainMenu.Show();
 						mainMenu.FormClosed += Logout;
 						this.Hide();
 					}
 					else
 					{
-						msgError("Incorrect username ore password \nTry again.");
-						tBoxPassword.Text="Password";
+						if (UserLoginCache.Archive == 0 && UserLoginCache.Position == 2)
+							msgError("This user does not have access rights \nTry again.");
+						else
+							msgError("Incorrect username ore password \nTry again.");
+
+						tBoxPassword.Text = "Password";
 						tBoxPassword.UseSystemPasswordChar = false;
 						tBoxUserName.Focus();
+
 					}
 				}
 				else msgError("Enter password");
@@ -118,7 +123,7 @@ namespace Work2._1
 		}
 		private void Logout(object sender, FormClosedEventArgs e)
 		{
-			tBoxUserName.Text="Username";
+			tBoxUserName.Text = "Username";
 			tBoxPassword.Text = "Password";
 			tBoxPassword.UseSystemPasswordChar = false;
 			lbErroMessage.Visible = false;

@@ -16,9 +16,9 @@ namespace Domen2
 		{
 			return user.GetAllObject();
 		}
-		public DataTable GetObjectByValue(string search)
+		public DataTable GetObjectsByType(int type)
 		{
-			return user.GetObjectByValue(search);
+			return user.GetObjectsByType(type);
 		}
 		public void AddNewObjects(Bitmap image, string man, string text, string addCiti, string addStr, int addHome, int type,int addFlat = -1)
 		{
@@ -32,10 +32,6 @@ namespace Domen2
 		{
 			return user.GetClientManger();
 		}
-		public DataTable GetManagerByValue(string search)
-		{
-			return user.GetManagerByValue(search);
-		}
 		public DataTable GetTypeObjects()
 		{
 			return user.GetTypeObjects();	
@@ -43,6 +39,6 @@ namespace Domen2
 		public void DeleteObjects(int id)
 		{
 			user.DeleteObjects(id);
-		}
+		}		
 	}
 }
