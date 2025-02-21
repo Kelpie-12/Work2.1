@@ -344,10 +344,14 @@ namespace Work2._1
 			{
 				UserControlDays ucd = new UserControlDays();
 				ucd.Days(i, month, year);
+				ucd.Tag= i;
 				//ucd.Anchor=AnchorStyles.Top| AnchorStyles.Bottom | AnchorStyles.Left|AnchorStyles.Right;
 				daysContener.Controls.Add(ucd);
-
 				ucd.Click += SelectDay;
+			}
+			foreach (Control item in daysContener.Controls)
+			{
+				item.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
 			}
 			
 		}

@@ -1,8 +1,2 @@
-﻿use ComopanyProgect; select CommercialRealEstates.IdObjects as [№], 
-CommercialRealEstates.Citi as [Город], CommercialRealEstates.Street as [Улица],
-CommercialRealEstates.House as [Дом],  TypeObjects.[name] as [Тип недвижимости],
-CommercialRealEstates.Area as [Площадь (м)], CommercialRealEstates.Price as [Цена] 
-from [Objects],CommercialRealEstates,Manager ,[TypeObjects]  where Manager.LastName='Mordovin'
-and [Objects].ManagerId=1 
-and CommercialRealEstates.IdObjects=[Objects].Id 
-and TypeObjects.id=CommercialRealEstates.ObjectType;
+﻿use ComopanyProgect; select [CommercialRealEstates].IdObjects as [ID],  Manager.LastName as [Манеджер],  CommercialRealEstates.Citi as [Город], [CommercialRealEstates].[Street] as [Улица], [CommercialRealEstates].House as [Дом], [TypeCommercialObject].name as [Тип недвижимости], CommercialRealEstates.Area as [Площадь (м)], CommercialRealEstates.Price as [Цена]  from CommercialRealEstates  left join TypeCommercialObject on TypeCommercialObject.id=CommercialRealEstates.CommercialObjectType left join [Objects] on CommercialRealEstates.IdObjects=[Objects].Id 
+left join Manager on [Objects].ManagerId=Manager.Id where  [Objects].Archive=1 and [Objects].TypeOffer=1

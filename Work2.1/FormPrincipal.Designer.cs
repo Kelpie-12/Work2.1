@@ -70,7 +70,7 @@
 			this.panelConnector.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panelConnector.Location = new System.Drawing.Point(0, 0);
 			this.panelConnector.Name = "panelConnector";
-			this.panelConnector.Size = new System.Drawing.Size(1200, 600);
+			this.panelConnector.Size = new System.Drawing.Size(1500, 700);
 			this.panelConnector.TabIndex = 0;
 			// 
 			// panelForm
@@ -79,7 +79,7 @@
 			this.panelForm.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panelForm.Location = new System.Drawing.Point(250, 40);
 			this.panelForm.Name = "panelForm";
-			this.panelForm.Size = new System.Drawing.Size(950, 560);
+			this.panelForm.Size = new System.Drawing.Size(1250, 660);
 			this.panelForm.TabIndex = 2;
 			this.panelForm.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelForm_MouseDown);
 			// 
@@ -97,7 +97,7 @@
 			this.panelMenu.Dock = System.Windows.Forms.DockStyle.Left;
 			this.panelMenu.Location = new System.Drawing.Point(0, 40);
 			this.panelMenu.Name = "panelMenu";
-			this.panelMenu.Size = new System.Drawing.Size(250, 560);
+			this.panelMenu.Size = new System.Drawing.Size(250, 660);
 			this.panelMenu.TabIndex = 1;
 			this.panelMenu.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelMenu_MouseDown);
 			// 
@@ -186,7 +186,7 @@
 			this.btnLogout.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.btnLogout.ForeColor = System.Drawing.SystemColors.Info;
 			this.btnLogout.Image = ((System.Drawing.Image)(resources.GetObject("btnLogout.Image")));
-			this.btnLogout.Location = new System.Drawing.Point(-5, 497);
+			this.btnLogout.Location = new System.Drawing.Point(-5, 597);
 			this.btnLogout.Name = "btnLogout";
 			this.btnLogout.Size = new System.Drawing.Size(260, 51);
 			this.btnLogout.TabIndex = 5;
@@ -298,7 +298,7 @@
 			this.panelBarTool.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panelBarTool.Location = new System.Drawing.Point(0, 0);
 			this.panelBarTool.Name = "panelBarTool";
-			this.panelBarTool.Size = new System.Drawing.Size(1200, 40);
+			this.panelBarTool.Size = new System.Drawing.Size(1500, 40);
 			this.panelBarTool.TabIndex = 0;
 			this.panelBarTool.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelBarTool_MouseDown);
 			// 
@@ -319,7 +319,7 @@
 			this.pBoxCollapse.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
 			this.pBoxCollapse.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.pBoxCollapse.Image = ((System.Drawing.Image)(resources.GetObject("pBoxCollapse.Image")));
-			this.pBoxCollapse.Location = new System.Drawing.Point(1138, 6);
+			this.pBoxCollapse.Location = new System.Drawing.Point(1438, 6);
 			this.pBoxCollapse.Name = "pBoxCollapse";
 			this.pBoxCollapse.Size = new System.Drawing.Size(25, 25);
 			this.pBoxCollapse.TabIndex = 3;
@@ -333,7 +333,7 @@
 			this.pBoxMinimazed.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
 			this.pBoxMinimazed.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.pBoxMinimazed.Image = ((System.Drawing.Image)(resources.GetObject("pBoxMinimazed.Image")));
-			this.pBoxMinimazed.Location = new System.Drawing.Point(1107, 6);
+			this.pBoxMinimazed.Location = new System.Drawing.Point(1407, 6);
 			this.pBoxMinimazed.Name = "pBoxMinimazed";
 			this.pBoxMinimazed.Size = new System.Drawing.Size(25, 25);
 			this.pBoxMinimazed.TabIndex = 2;
@@ -346,7 +346,7 @@
 			this.pBoxMaximazed.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
 			this.pBoxMaximazed.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.pBoxMaximazed.Image = ((System.Drawing.Image)(resources.GetObject("pBoxMaximazed.Image")));
-			this.pBoxMaximazed.Location = new System.Drawing.Point(1138, 6);
+			this.pBoxMaximazed.Location = new System.Drawing.Point(1438, 6);
 			this.pBoxMaximazed.Name = "pBoxMaximazed";
 			this.pBoxMaximazed.Size = new System.Drawing.Size(25, 25);
 			this.pBoxMaximazed.TabIndex = 1;
@@ -359,7 +359,7 @@
 			this.pBoxClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
 			this.pBoxClose.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.pBoxClose.Image = ((System.Drawing.Image)(resources.GetObject("pBoxClose.Image")));
-			this.pBoxClose.Location = new System.Drawing.Point(1169, 6);
+			this.pBoxClose.Location = new System.Drawing.Point(1469, 6);
 			this.pBoxClose.Name = "pBoxClose";
 			this.pBoxClose.Size = new System.Drawing.Size(25, 25);
 			this.pBoxClose.TabIndex = 0;
@@ -370,7 +370,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1200, 600);
+			this.ClientSize = new System.Drawing.Size(1500, 700);
 			this.Controls.Add(this.panelConnector);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.MinimumSize = new System.Drawing.Size(600, 300);

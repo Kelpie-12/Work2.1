@@ -12,10 +12,7 @@ namespace Domen2
 		{
 			return userData.GetAllClient();
 		}
-		public DataTable GetClient(string search)
-		{
-			return userData.GetClient(search);
-		}
+		
 		public void EditClient(int id, string name, string last, string man, string tel)
 		{
 			userData.EditClient(id, name, last, tel, man);

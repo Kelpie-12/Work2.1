@@ -12,13 +12,14 @@ namespace Work2._1
 	public partial class FormObjects : Form
 	{
 		ObjectsModel obj = new ObjectsModel();
-		bool selectObj, selectMan, filter, filt;
+		bool selectObj, selectMan, selectClient, filter, filt;
 		string filtersql;
-		int typeSearch = -1;
+		int typeSearch = -1, id_man = -1, id_client = -1;
 		public FormObjects()
 		{
 			InitializeComponent();
-			LoadObjectType(cbTipObj);
+			//LoadObjectType(cbTipObj);
+			LoadFilter();
 			dataGridViewObject.DataSource = obj.GetAllObject();
 			tcObjects.TabPages.Remove(tabPageObjectSelect);
 			tcObjects.TabPages.Remove(tabPageSelectManager);
@@ -84,8 +85,19 @@ namespace Work2._1
 				tcObjects.TabPages.Remove(tabPageSelectManager);
 				tcObjects.TabPages.Add(tabPageObjectSelect);
 				lbMan.Text = dGVMS.SelectedRows[0].Cells[2].Value.ToString();
+				id_man = Convert.ToInt32(dGVMS.SelectedRows[0].Cells[0].Value);
 				btnEditClient.Enabled = false;
 				selectMan = false;
+				btnSaveClient.Enabled = true;
+			}
+			else if (selectClient == true)
+			{
+				tcObjects.TabPages.Remove(tabPageSelectManager);
+				tcObjects.TabPages.Add(tabPageObjectSelect);
+				LabClient.Text = dGVMS.SelectedRows[0].Cells[2].Value.ToString();
+				id_client = Convert.ToInt32(dGVMS.SelectedRows[0].Cells[0].Value);
+				btnEditClient.Enabled = false;
+				selectClient = false;
 				btnSaveClient.Enabled = true;
 			}
 			else
@@ -117,6 +129,8 @@ namespace Work2._1
 		{
 			if (lbMan.Text == string.Empty)
 				MessageBox.Show("Выбирите менеджера");
+			if (lbClient.Text == string.Empty)
+				MessageBox.Show("Выбирите клиента");
 			else
 			{
 				if (selectObj == true)
@@ -128,10 +142,36 @@ namespace Work2._1
 				}
 				else
 				{
-					if (tbFlat.Text == string.Empty)
-						obj.AddNewObjects(null, lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(cbTipObj.SelectedValue));
-					else
-						obj.AddNewObjects(null, lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(cbTipObj.SelectedValue), Convert.ToInt32(tbFlat.Text));
+					if (cbTipObj.SelectedIndex == 0)//квартира
+					{
+						obj.AddNewApartments(obj.AddNewObjects(id_man, Convert.ToInt32(cbTipObj.GetItemText(cbTipObj.SelectedIndex)), Convert.ToInt32(cbOfferType.GetItemText(cbOfferType.SelectedIndex)) + 1, id_client),
+							tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(tbFlat.Text), Convert.ToInt32(tbFloor.Text), Convert.ToInt32(tbAreaHouse.Text), Convert.ToInt32(tbRooms.Text), Convert.ToInt32(tbPrice.Text), tbText.Text);						
+					}
+					else if (cbTipObj.SelectedIndex == 1)//дом
+					{
+						obj.AddNewHouse(obj.AddNewObjects(id_man, Convert.ToInt32(cbTipObj.GetItemText(cbTipObj.SelectedIndex)), Convert.ToInt32(cbOfferType.GetItemText(cbOfferType.SelectedIndex)) + 1, id_client),
+							tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(tbHouseAreaH.Text), Convert.ToInt32(tbAreaPlotH.Text), Convert.ToInt32(tbFloorH.Text), Convert.ToInt32(tbRoomsH.Text), Convert.ToInt32(tbPrice.Text), tbText.Text);
+					}
+					else if (cbTipObj.SelectedIndex == 3)//земельный участок
+					{
+
+					}
+					else if (cbTipObj.SelectedIndex == 4)//Коммерческая недвижимость
+					{
+						
+					}
+					else if (cbTipObj.SelectedIndex == 5)//гараж
+					{
+						
+					}
+					else if (cbTipObj.SelectedIndex == 6)//дача
+					{
+						
+					}
+					//if (tbFlat.Text == string.Empty)
+					//	obj.AddNewObjects(null, lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(cbTipObj.SelectedValue));
+					//else
+					//	obj.AddNewObjects(null, lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(cbTipObj.SelectedValue), Convert.ToInt32(tbFlat.Text));
 				}
 				selectObj = cbTipObj.Enabled = false;
 				dataGridViewObject.DataSource = obj.GetAllObject();
@@ -241,6 +281,50 @@ namespace Work2._1
 
 		}
 
+		private void cbTipObj_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			tLPDacha.Visible = cbComercialObject.Visible = tLPComercial.Visible = tLPLand.Visible = tLPAppartments.Visible = tLPHouse.Visible = false;
+			if (cbTipObj.SelectedIndex == 0)//квартира
+			{
+				tLPAppartments.Visible = true;
+			}
+			else if (cbTipObj.SelectedIndex == 1)//дом
+			{
+				tLPHouse.Visible = true;
+			}
+			else if (cbTipObj.SelectedIndex == 2)//земля
+			{
+				tLPLand.Visible = true;
+			}
+			else if (cbTipObj.SelectedIndex == 3)//комерция
+			{
+				tLPComercial.Visible = true;
+				cbComercialObject.Visible = true;
+				cbComercialObject.DataSource = obj.GetCommercialObjectType();
+				cbComercialObject.DisplayMember = "name";
+				cbComercialObject.ValueMember = "id";
+			}
+			else if (cbTipObj.SelectedIndex == 4)//гараж
+			{
+
+			}
+			else if (cbTipObj.SelectedIndex == 5)//дача
+			{
+				tLPDacha.Visible = true;
+			}
+		}
+
+		private void btnSelectClient_Click_1(object sender, EventArgs e)
+		{
+			tcObjects.TabPages.Remove(tabPageObjectSelect);
+			tcObjects.TabPages.Add(tabPageSelectManager);
+			btnSearch.Enabled = btnAddNewClient.Enabled = btnDeleteClient.Enabled = btnSaveClient.Enabled = btnEditClient.Enabled = false;
+			btnSelect.Enabled = true;
+			selectClient = true;
+			dGVMS.DataSource = null;
+			dGVMS.DataSource = obj.GetAllClient();
+		}
+
 		private void tbMangerSearch_TextChanged(object sender, EventArgs e)
 		{
 			string[] values = (sender as TextBox).Text.Split(' ');
@@ -301,6 +385,11 @@ namespace Work2._1
 			//type.DataSource = d;
 			//cbFilterType.DataSource = d;
 			LoadObjectType(cbFilterType);
+			LoadObjectType(cbTipObj);
+			cbOfferType.DataSource = cbFilter.DataSource = obj.GetOfferType();
+			cbOfferType.DisplayMember = cbFilter.DisplayMember = "name";
+			cbOfferType.ValueMember = cbFilter.ValueMember = "id";
+
 		}
 		private async void bntFilter_Click(object sender, EventArgs e)
 		{
@@ -312,7 +401,6 @@ namespace Work2._1
 					panelFilter.Location = new Point(panelFilter.Location.X, panelFilter.Location.Y + 10);
 					filter = true;
 				}
-				LoadFilter();
 			}
 			else
 			{
@@ -322,8 +410,10 @@ namespace Work2._1
 					panelFilter.Location = new Point(panelFilter.Location.X, panelFilter.Location.Y - 10);
 					filter = false;
 				}
-				dataGridViewObject.DataSource = obj.GetObjectsByType(Convert.ToInt32(cbFilterType.GetItemText(cbFilterType.SelectedIndex)));
-				typeSearch = Convert.ToInt32(cbFilterType.GetItemText(cbFilterType.SelectedIndex));
+				dataGridViewObject.DataSource = obj.GetObjectsByType(Convert.ToInt32(cbFilterType.GetItemText(cbFilterType.SelectedIndex)), Convert.ToInt32(cbFilter.GetItemText(cbFilter.SelectedIndex)) + 1);
+
+				//typeSearch = Convert.ToInt32(cbFilterType.GetItemText(cbFilterType.SelectedIndex));
+
 			}
 		}
 
