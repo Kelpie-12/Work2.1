@@ -13,7 +13,8 @@ namespace DataAccess2
 		public ConnectionToSql()
 		{
 			//connectionString = "Data Source=DESKTOP-ETJ1P85\\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-			connectionString = "Data Source=ROMAN;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+			connectionString = "Data Source=ROMAN;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trusted_Connection=true;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Initial Catalog=ComopanyProgect";
+			//connectionString = "Data Source=ROMAN;Initial Catalog=testa;Integrated Security=True;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 		}
 		protected SqlConnection GetConnection()
 		{

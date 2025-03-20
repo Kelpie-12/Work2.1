@@ -36,6 +36,7 @@ namespace Domen2
 		{
 			user.AddNewApartments(id, citi, street, house, apart, floor, area, rooms, price, desc);
 		}
+	
 		public void EditObject(Bitmap image, int id, string man, string text, string addCiti, string addStr, int addHome, int type, int addFlat = -1)
 		{
 			user.EditObject(image, id, man, text, addCiti, addStr, addHome, type, addFlat);
@@ -60,5 +61,7 @@ namespace Domen2
 		{
 			return user.GetCommercialObjectType();
 		}
-	}
+		
+
+    }
 }
