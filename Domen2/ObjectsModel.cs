@@ -20,22 +20,22 @@ namespace Domen2
 		{
 			return user.GetObjectsByType(type, offer, archive);
 		}
-		public int AddNewObjects(int man, int typeObj, int typeOffer, int client)
+		//public int AddNewObjects(int man, int typeObj, int typeOffer, int client)
+		//{
+		//	return user.AddNewObjects(man, typeObj, typeOffer, client);
+		//}
+		public void AddNewHouse(string man, int typeObj, int typeOffer, int client, string citi, string street, int house, int areaHouse, int areaPlot, int floor, int rooms, int price, string desc)
 		{
-			return user.AddNewObjects(man, typeObj, typeOffer, client);
-		}
-		public void AddNewHouse(int id, string citi, string street, int house, int areaHouse, int areaPlot, int floor, int rooms, int price, string desc)
-		{
-			user.AddNewHouse(id, citi,street,house,areaHouse,areaPlot,floor,rooms,price,desc );
+			user.AddNewHouse(man,typeObj,typeOffer,client, citi,street,house,areaHouse,areaPlot,floor,rooms,price,desc );
 		}
 		public DataTable GetAllClient()
 		{
 			return user.GetAllClient();
 		}
-		public void AddNewApartments(int id, string citi, string street, int house, int apart, int floor, int area, int rooms, int price, string desc)
-		{
-			user.AddNewApartments(id, citi, street, house, apart, floor, area, rooms, price, desc);
-		}
+		//public void AddNewApartments(int id, string citi, string street, int house, int apart, int floor, int area, int rooms, int price, string desc)
+		//{
+		//	user.AddNewApartments(id, citi, street, house, apart, floor, area, rooms, price, desc);
+		//}
 	
 		public void EditObject(Bitmap image, int id, string man, string text, string addCiti, string addStr, int addHome, int type, int addFlat = -1)
 		{
@@ -61,7 +61,13 @@ namespace Domen2
 		{
 			return user.GetCommercialObjectType();
 		}
-		
-
+        public void AddNewLand(string man, int typeObj, int typeOffer, int client, string citi, string street, int house, string coord, string category, int price, int area, string desc)
+		{
+			user.AddNewLand(man, typeObj, typeOffer, client, citi, street, house, coord, category, price, area, desc);
+		}
+        public void AddNewApartments(string man, int typeObj, int typeOffer, int client,  string citi, string street, int house, int apart, int floor, int area, int rooms, int price, string desc)
+		{
+			user.AddNewApartments(man, typeObj, typeOffer, client, citi, street, house, apart, floor, area, rooms, price, desc);
+		}
     }
 }

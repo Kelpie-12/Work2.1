@@ -471,7 +471,7 @@ namespace DataAccess2
             }
 
         }
-        public void AddNewApartments(int id, string citi, string street, int house, int apart, int floor, int area, int rooms, int price, string desc)
+        public void AddNewApartments(string man, int typeObj, int typeOffer, int client, string citi, string street, int house, int apart, int floor, int area, int rooms, int price, string desc)
         {
             using (var con = GetConnection())
             {
@@ -479,26 +479,33 @@ namespace DataAccess2
                 using (var cmd = new SqlCommand())
                 {
                     cmd.Connection = con;
-                    cmd.CommandText = " use ComopanyProgect; begin if not exists (select * from [Apartments] " +
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "create_new_object_apartment";
+                    //
+                    /*cmd.CommandText = " use ComopanyProgect; begin if not exists (select * from [Apartments] " +
                         "where Citi=@citi and Street=@street and House=@home and Apartment=@flat) " +
                         "begin insert into [Apartments] (IdObject,Citi,Street,House,Apartment,Floor,AreaHouse,Rooms,Price,Description)" +
-                        " values (@id,@citi,@street,@home,@flat,@floor,@area,@room,@price,@text) end end";
+                        " values (@id,@citi,@street,@home,@flat,@floor,@area,@room,@price,@text) end end";*/
+                    cmd.Parameters.Add(new SqlParameter("@manager_lastname", man));
+                    cmd.Parameters.Add(new SqlParameter("@type_object", typeObj));
+                    cmd.Parameters.Add(new SqlParameter("@type_offer", typeOffer));
+                    cmd.Parameters.Add(new SqlParameter("@client_id", client));
 
-                    cmd.Parameters.AddWithValue("@text", desc);
-                    cmd.Parameters.AddWithValue("@citi", citi);
-                    cmd.Parameters.AddWithValue("@street", street);
-                    cmd.Parameters.AddWithValue("@home", house);
-                    cmd.Parameters.AddWithValue("@flat", apart);
-                    cmd.Parameters.AddWithValue("@id", id);
-                    cmd.Parameters.AddWithValue("@floor", floor);
-                    cmd.Parameters.AddWithValue("@area", area);
-                    cmd.Parameters.AddWithValue("@room", rooms);
-                    cmd.Parameters.AddWithValue("@price", price);
+                    cmd.Parameters.Add(new SqlParameter("@citi", citi));
+                    cmd.Parameters.Add(new SqlParameter("@street", street));
+                    cmd.Parameters.Add(new SqlParameter("@home", house));
+                    cmd.Parameters.Add(new SqlParameter("@apart", apart));
+                    cmd.Parameters.Add(new SqlParameter("@floor", floor));
+                    cmd.Parameters.Add(new SqlParameter("@areaHouse", area));
+                    cmd.Parameters.Add(new SqlParameter("@rooms", rooms));
+                    cmd.Parameters.Add(new SqlParameter("@price", price));
+                    cmd.Parameters.Add(new SqlParameter("@description", desc));
+
                     cmd.ExecuteNonQuery();
                 }
             }
         }
-        public void AddNewHouse(int id, string citi, string street, int house, int areaHouse, int areaPlot, int floor, int rooms, int price, string desc)
+        public void AddNewHouse(string man, int typeObj, int typeOffer, int client, string citi, string street, int house, int areaHouse, int areaPlot, int floor, int rooms, int price, string desc)
         {
             using (var con = GetConnection())
             {
@@ -506,25 +513,34 @@ namespace DataAccess2
                 using (var cmd = new SqlCommand())
                 {
                     cmd.Connection = con;
-                    cmd.CommandText = " use ComopanyProgect; begin if not exists (select * from [House] " +
-                        "where Citi=@citi and Street=@street and House=@home ) " +
-                        "begin insert into [House] (IdObject,Citi,Street,House,AreaHouse,AreaPlot,Floor,Rooms,Price,Description)" +
-                        " values (@id,@citi,@street,@home,@area,@areap,@floor,@room,@price,@text) end end";
-                    cmd.Parameters.AddWithValue("@text", desc);
-                    cmd.Parameters.AddWithValue("@citi", citi);
-                    cmd.Parameters.AddWithValue("@street", street);
-                    cmd.Parameters.AddWithValue("@home", house);
-                    cmd.Parameters.AddWithValue("@id", id);
-                    cmd.Parameters.AddWithValue("@floor", floor);
-                    cmd.Parameters.AddWithValue("@area", areaHouse);
-                    cmd.Parameters.AddWithValue("@areap", areaPlot);
-                    cmd.Parameters.AddWithValue("@room", rooms);
-                    cmd.Parameters.AddWithValue("@price", price);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.CommandText = "create_new_object_house";
+                    cmd.Parameters.Add(new SqlParameter("@manager_lastname", man));
+
+                    cmd.Parameters.Add(new SqlParameter("@type_object", typeObj));
+                    cmd.Parameters.Add(new SqlParameter("@type_offer", typeOffer));
+                    cmd.Parameters.Add(new SqlParameter("@client_id", client));
+
+                    /* cmd.CommandText = " use ComopanyProgect; begin if not exists (select * from [House] " +
+                         "where Citi=@citi and Street=@street and House=@home ) " +
+                         "begin insert into [House] (IdObject,Citi,Street,House,AreaHouse,AreaPlot,Floor,Rooms,Price,Description)" +
+                         " values (@id,@citi,@street,@home,@area,@areap,@floor,@room,@price,@text) end end";*/
+                    cmd.Parameters.Add(new SqlParameter("@citi", citi));
+                    cmd.Parameters.Add(new SqlParameter("@street", street));
+                    cmd.Parameters.Add(new SqlParameter("@home", house));
+                    cmd.Parameters.Add(new SqlParameter("@areaHouse", areaHouse));
+                    cmd.Parameters.Add(new SqlParameter("@areaPlot", areaPlot));
+                    cmd.Parameters.Add(new SqlParameter("@rooms", rooms));
+                    cmd.Parameters.Add(new SqlParameter("@floor", floor));
+                    cmd.Parameters.Add(new SqlParameter("@price", price));
+                    cmd.Parameters.Add(new SqlParameter("@description", desc));
+
                     cmd.ExecuteNonQuery();
                 }
             }
         }
-        public void AddNewLand(int man, int typeObj, int typeOffer, int client, string citi, string street, int house, string coord, string category, int price, int area, string desc)
+        public void AddNewLand(string man, int typeObj, int typeOffer, int client, string citi, string street, int house, string coord, string category, int price, int area, string desc)
         {
             using (var con = GetConnection())
             {
@@ -534,11 +550,11 @@ namespace DataAccess2
                     cmd.Connection = con;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.CommandText = "create_new_object_land";
-                    cmd.Parameters.Add(new SqlParameter("@manager_id", man));                    
+                    cmd.Parameters.Add(new SqlParameter("@manager_lastname", man));
                     cmd.Parameters.Add(new SqlParameter("@type_object", typeObj));
                     cmd.Parameters.Add(new SqlParameter("@type_offer", typeOffer));
                     cmd.Parameters.Add(new SqlParameter("@client_id", client));
-                 
+
                     cmd.Parameters.Add(new SqlParameter("@citi", citi));
                     cmd.Parameters.Add(new SqlParameter("@street", street));
                     cmd.Parameters.Add(new SqlParameter("@home", house));
@@ -547,7 +563,7 @@ namespace DataAccess2
                     cmd.Parameters.Add(new SqlParameter("@price", price));
                     cmd.Parameters.Add(new SqlParameter("@area", area));
                     cmd.Parameters.Add(new SqlParameter("@description", desc));
-                    //cmd.CommandText = " use ComopanyProgect; begin if not exists (select * from [House] " +
+                    /*cmd.CommandText = " use ComopanyProgect; begin if not exists (select * from [House] " +
                     //"where Citi=@citi and Street=@street and House=@home ) " +
                     //"begin insert into [House] (IdObject,Citi,Street,House,AreaHouse,AreaPlot,Floor,Rooms,Price,Description)" +
                     //" values (@id,@citi,@street,@home,@area,@areap,@floor,@room,@price,@text) end end";
@@ -560,36 +576,35 @@ namespace DataAccess2
                     //cmd.Parameters.AddWithValue("@area", areaHouse);
                     //cmd.Parameters.AddWithValue("@areap", areaPlot);
                     //cmd.Parameters.AddWithValue("@room", rooms);
-                    //cmd.Parameters.AddWithValue("@price", price);
+                    //cmd.Parameters.AddWithValue("@price", price);*/
                     cmd.ExecuteNonQuery();
                 }
             }
         }
-        public int AddNewObjects(int man, int typeObj, int typeOffer, int client)
-        {
-            int id = -1;
-            using (var con = GetConnection())
-            {
-                con.Open();
-                using (var cmd = new SqlCommand())
-                {
-                    cmd.Connection = con;
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = $"create_new_obj";
-                    cmd.Parameters.Add(new SqlParameter("@man", man));
-                    cmd.Parameters.Add(new SqlParameter("@typeOffer", typeOffer));
-                    cmd.Parameters.Add(new SqlParameter("@typeObj", typeObj));
-                    cmd.Parameters.Add(new SqlParameter("@client", client));
-                    SqlParameter ir = new SqlParameter("idObj", SqlDbType.Int);
-                    ir.Direction = ParameterDirection.Output;
-                    cmd.Parameters.Add(ir);
-                    cmd.ExecuteNonQuery();
-                    id = Convert.ToInt32(ir.Value);
-                }
-            }
-            return id;
-
-        }
+        /*public int AddNewObjects(int man, int typeObj, int typeOffer, int client)
+        //{
+        //    int id = -1;
+        //    using (var con = GetConnection())
+        //    {
+        //        con.Open();
+        //        using (var cmd = new SqlCommand())
+        //        {
+        //            cmd.Connection = con;
+        //            cmd.CommandType = CommandType.StoredProcedure;
+        //            cmd.CommandText = $"create_new_obj";
+        //            cmd.Parameters.Add(new SqlParameter("@man", man));
+        //            cmd.Parameters.Add(new SqlParameter("@typeOffer", typeOffer));
+        //            cmd.Parameters.Add(new SqlParameter("@typeObj", typeObj));
+        //            cmd.Parameters.Add(new SqlParameter("@client", client));
+        //            SqlParameter ir = new SqlParameter("idObj", SqlDbType.Int);
+        //            ir.Direction = ParameterDirection.Output;
+        //            cmd.Parameters.Add(ir);
+        //            cmd.ExecuteNonQuery();
+        //            id = Convert.ToInt32(ir.Value);
+        //        }
+        //    }
+        //    return id;
+        }*/
         public void EditObject(Bitmap image, int id, string man, string text, string addCiti, string addStr, int addHome, int type, int addFlat = -1)
         {
             DataTable table = GetManClientIdByName(man, "-1");

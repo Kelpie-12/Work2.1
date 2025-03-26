@@ -13,11 +13,15 @@ namespace Work2._1
     {
         ObjectsModel obj = new ObjectsModel();
         bool selectObj, selectMan, selectClient, filter, filt;
-        string filtersql;
-        int typeSearch = -1, id_man = -1, id_client = -1;
+        string man_lastname = string.Empty;
+        int typeSearch = -1,  id_client = -1;
         public FormObjects()
         {
             InitializeComponent();
+            if (UserLoginCache.Position==Positions.Manager)
+            {
+                man_lastname = UserLoginCache.LastName;
+            }
             //LoadObjectType(cbTipObj);
             LoadFilter();
             dataGridViewObject.DataSource = obj.GetAllObject();
@@ -85,7 +89,7 @@ namespace Work2._1
                 tcObjects.TabPages.Remove(tabPageSelectManager);
                 tcObjects.TabPages.Add(tabPageObjectSelect);
                 lbMan.Text = dGVMS.SelectedRows[0].Cells[2].Value.ToString();
-                id_man = Convert.ToInt32(dGVMS.SelectedRows[0].Cells[0].Value);
+                man_lastname = dGVMS.SelectedRows[0].Cells[2].Value.ToString();
                 btnEditClient.Enabled = false;
                 selectMan = false;
                 btnSaveClient.Enabled = true;
@@ -137,53 +141,54 @@ namespace Work2._1
                 MessageBox.Show("Выбирите клиента");
                 return;
             }
+
+            if (selectObj == true)
+            {
+                if (tbFlat.Text == string.Empty)
+                    obj.EditObject(null, Convert.ToInt32(lbIDObj.Text), lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(cbTipObj.SelectedValue));
+                else
+                    obj.EditObject(null, Convert.ToInt32(lbIDObj.Text), lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(cbTipObj.SelectedValue), Convert.ToInt32(tbFlat.Text));
+            }
             else
             {
-                if (selectObj == true)
+                if (cbTipObj.SelectedIndex == 0)//квартира
                 {
-                    if (tbFlat.Text == string.Empty)
-                        obj.EditObject(null, Convert.ToInt32(lbIDObj.Text), lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(cbTipObj.SelectedValue));
-                    else
-                        obj.EditObject(null, Convert.ToInt32(lbIDObj.Text), lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(cbTipObj.SelectedValue), Convert.ToInt32(tbFlat.Text));
+                         obj.AddNewApartments(man_lastname, Convert.ToInt32(cbTipObj.GetItemText(cbTipObj.SelectedIndex)), Convert.ToInt32(cbOfferType.GetItemText(cbOfferType.SelectedIndex)) + 1, id_client,
+                             tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(tbFlat.Text), Convert.ToInt32(tbFloor.Text), Convert.ToInt32(tbAreaHouse.Text), Convert.ToInt32(tbRooms.Text), Convert.ToInt32(tbPrice.Text), tbText.Text);
                 }
-                else
-                {
-                    if (cbTipObj.SelectedIndex == 0)//квартира
-                    {
-                        obj.AddNewApartments(obj.AddNewObjects(id_man, Convert.ToInt32(cbTipObj.GetItemText(cbTipObj.SelectedIndex)), Convert.ToInt32(cbOfferType.GetItemText(cbOfferType.SelectedIndex)) + 1, id_client),
-                            tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(tbFlat.Text), Convert.ToInt32(tbFloor.Text), Convert.ToInt32(tbAreaHouse.Text), Convert.ToInt32(tbRooms.Text), Convert.ToInt32(tbPrice.Text), tbText.Text);
-                    }
-                    else if (cbTipObj.SelectedIndex == 1)//дом
-                    {
-                        obj.AddNewHouse(obj.AddNewObjects(id_man, Convert.ToInt32(cbTipObj.GetItemText(cbTipObj.SelectedIndex)), Convert.ToInt32(cbOfferType.GetItemText(cbOfferType.SelectedIndex)) + 1, id_client),
+                else if (cbTipObj.SelectedIndex == 1)//дом
+                {                    
+                        obj.AddNewHouse(man_lastname, Convert.ToInt32(cbTipObj.GetItemText(cbTipObj.SelectedIndex)), Convert.ToInt32(cbOfferType.GetItemText(cbOfferType.SelectedIndex)) + 1, id_client,
                             tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(tbHouseAreaH.Text), Convert.ToInt32(tbAreaPlotH.Text), Convert.ToInt32(tbFloorH.Text), Convert.ToInt32(tbRoomsH.Text), Convert.ToInt32(tbPrice.Text), tbText.Text);
-                    }
-                    else if (cbTipObj.SelectedIndex == 3)//земельный участок
-                    {
-
-                    }
-                    else if (cbTipObj.SelectedIndex == 4)//Коммерческая недвижимость
-                    {
-
-                    }
-                    else if (cbTipObj.SelectedIndex == 5)//гараж
-                    {
-
-                    }
-                    else if (cbTipObj.SelectedIndex == 6)//дача
-                    {
-
-                    }
-                    //if (tbFlat.Text == string.Empty)
-                    //	obj.AddNewObjects(null, lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(cbTipObj.SelectedValue));
-                    //else
-                    //	obj.AddNewObjects(null, lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(cbTipObj.SelectedValue), Convert.ToInt32(tbFlat.Text));
+                    
                 }
-                selectObj = cbTipObj.Enabled = false;
-                dataGridViewObject.DataSource = obj.GetAllObject();
-                LoadObjectType(cbTipObj);
-                btnSearch_Click(sender, e);
+                else if (cbTipObj.SelectedIndex == 2)//земельный участок
+                {
+                    obj.AddNewLand(man_lastname, Convert.ToInt32(cbTipObj.GetItemText(cbTipObj.SelectedIndex)), Convert.ToInt32(cbOfferType.GetItemText(cbOfferType.SelectedIndex)) + 1, id_client,
+                         tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), tbCoordinatesL.Text, tbCategoryL.Text, Convert.ToInt32(tbPrice.Text), Convert.ToInt32(tbAreaL.Text), tbText.Text);
+                }
+                else if (cbTipObj.SelectedIndex == 3)//Коммерческая недвижимость
+                {
+
+                }
+                else if (cbTipObj.SelectedIndex == 4)//гараж
+                {
+
+                }
+                else if (cbTipObj.SelectedIndex == 5)//дача
+                {
+
+                }
+                //if (tbFlat.Text == string.Empty)
+                //	obj.AddNewObjects(null, lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(cbTipObj.SelectedValue));
+                //else
+                //	obj.AddNewObjects(null, lbMan.Text, tbText.Text, tbCiti.Text, tbStreet.Text, Convert.ToInt32(tbHome.Text), Convert.ToInt32(cbTipObj.SelectedValue), Convert.ToInt32(tbFlat.Text));
             }
+            selectObj = cbTipObj.Enabled = false;
+            dataGridViewObject.DataSource = obj.GetAllObject();
+            LoadObjectType(cbTipObj);
+            btnSearch_Click(sender, e);
+
         }
 
 
@@ -241,7 +246,7 @@ namespace Work2._1
 
         private void btnAddNewClient_Click(object sender, EventArgs e)
         {
-           
+
             if (UserLoginCache.Position == Positions.Manager)
             {
                 btnSelectManger.Visible = false;
