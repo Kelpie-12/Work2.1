@@ -581,6 +581,111 @@ namespace DataAccess2
                 }
             }
         }
+
+        public void AddNewCommercial(string man, int typeObj, int typeOffer, int client, string citi, string street, int house, int commerObjType, int price, int area, int numberOffice, string desc)
+        {
+            using (var con = GetConnection())
+            {
+                con.Open();
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.Connection = con;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.CommandText = "create_new_object_commercial";
+                    cmd.Parameters.Add(new SqlParameter("@manager_lastname", man));
+
+                    cmd.Parameters.Add(new SqlParameter("@type_object", typeObj));
+                    cmd.Parameters.Add(new SqlParameter("@type_offer", typeOffer));
+                    cmd.Parameters.Add(new SqlParameter("@client_id", client));
+
+                    /* cmd.CommandText = " use ComopanyProgect; begin if not exists (select * from [House] " +
+                         "where Citi=@citi and Street=@street and House=@home ) " +
+                         "begin insert into [House] (IdObject,Citi,Street,House,AreaHouse,AreaPlot,Floor,Rooms,Price,Description)" +
+                         " values (@id,@citi,@street,@home,@area,@areap,@floor,@room,@price,@text) end end";*/
+                    cmd.Parameters.Add(new SqlParameter("@citi", citi));
+                    cmd.Parameters.Add(new SqlParameter("@street", street));
+                    cmd.Parameters.Add(new SqlParameter("@home", house));
+                    cmd.Parameters.Add(new SqlParameter("@commercialObjectType", commerObjType));
+                    cmd.Parameters.Add(new SqlParameter("@price", price));
+                    cmd.Parameters.Add(new SqlParameter("@area", area));
+                    cmd.Parameters.Add(new SqlParameter("@numberOffice", numberOffice));
+                    cmd.Parameters.Add(new SqlParameter("@description", desc));
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void AddNewGarage(string man, int typeObj, int typeOffer, int client, string citi, string street, int house, int price, int area, string desc)
+        {
+            using (var con = GetConnection())
+            {
+                con.Open();
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.Connection = con;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.CommandText = "create_new_object_garage";
+                    cmd.Parameters.Add(new SqlParameter("@manager_lastname", man));
+
+                    cmd.Parameters.Add(new SqlParameter("@type_object", typeObj));
+                    cmd.Parameters.Add(new SqlParameter("@type_offer", typeOffer));
+                    cmd.Parameters.Add(new SqlParameter("@client_id", client));
+
+                    /* cmd.CommandText = " use ComopanyProgect; begin if not exists (select * from [House] " +
+                         "where Citi=@citi and Street=@street and House=@home ) " +
+                         "begin insert into [House] (IdObject,Citi,Street,House,AreaHouse,AreaPlot,Floor,Rooms,Price,Description)" +
+                         " values (@id,@citi,@street,@home,@area,@areap,@floor,@room,@price,@text) end end";*/
+                    cmd.Parameters.Add(new SqlParameter("@citi", citi));
+                    cmd.Parameters.Add(new SqlParameter("@street", street));
+                    cmd.Parameters.Add(new SqlParameter("@home", house));
+                    cmd.Parameters.Add(new SqlParameter("@price", price));
+                    cmd.Parameters.Add(new SqlParameter("@area", area));
+                    cmd.Parameters.Add(new SqlParameter("@description", desc));
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void AddNewDacha(string man, int typeObj, int typeOffer, int client, string citi, string street, int house, int price, int areaHouse,int floor,int areaPlot, string desc)
+        {
+            using (var con = GetConnection())
+            {
+                con.Open();
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.Connection = con;
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.CommandText = "create_new_object_dacha";
+                    cmd.Parameters.Add(new SqlParameter("@manager_lastname", man));
+
+                    cmd.Parameters.Add(new SqlParameter("@type_object", typeObj));
+                    cmd.Parameters.Add(new SqlParameter("@type_offer", typeOffer));
+                    cmd.Parameters.Add(new SqlParameter("@client_id", client));
+
+                    /* cmd.CommandText = " use ComopanyProgect; begin if not exists (select * from [House] " +
+                         "where Citi=@citi and Street=@street and House=@home ) " +
+                         "begin insert into [House] (IdObject,Citi,Street,House,AreaHouse,AreaPlot,Floor,Rooms,Price,Description)" +
+                         " values (@id,@citi,@street,@home,@area,@areap,@floor,@room,@price,@text) end end";*/
+                    cmd.Parameters.Add(new SqlParameter("@citi", citi));
+                    cmd.Parameters.Add(new SqlParameter("@street", street));
+                    cmd.Parameters.Add(new SqlParameter("@home", house));
+                    cmd.Parameters.Add(new SqlParameter("@price", price));
+                    cmd.Parameters.Add(new SqlParameter("@areaHouse", areaHouse));
+                    cmd.Parameters.Add(new SqlParameter("@areaPlot", areaPlot));
+                    cmd.Parameters.Add(new SqlParameter("@floor", floor));
+                    cmd.Parameters.Add(new SqlParameter("@description", desc));
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+
         /*public int AddNewObjects(int man, int typeObj, int typeOffer, int client)
         //{
         //    int id = -1;
