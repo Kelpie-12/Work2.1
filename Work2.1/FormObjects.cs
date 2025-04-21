@@ -106,20 +106,26 @@ namespace Work2._1
             }
             else
             {
-                lbIDObj.Text = dataGridViewObject.SelectedRows[0].Cells[0].Value.ToString();
-                lbMan.Text = dataGridViewObject.SelectedRows[0].Cells[1].Value.ToString();
-                tbText.Text = dataGridViewObject.SelectedRows[0].Cells[2].Value.ToString();
-                tbCiti.Text = dataGridViewObject.SelectedRows[0].Cells[3].Value.ToString();
-                tbStreet.Text = dataGridViewObject.SelectedRows[0].Cells[4].Value.ToString();
-                tbHome.Text = dataGridViewObject.SelectedRows[0].Cells[5].Value.ToString();
-                tbFlat.Text = dataGridViewObject.SelectedRows[0].Cells[6].Value.ToString();
-                tbText.ReadOnly = tbCiti.ReadOnly = tbStreet.ReadOnly = tbHome.ReadOnly = tbFlat.ReadOnly = true;
-                btnSaveClient.Enabled = false;
+                cbTipObj.SelectedIndex = GetIndexTypeObjects(dataGridViewObject.SelectedRows[0].Cells[2].Value.ToString(), cbTipObj);
+                cbOfferType.SelectedIndex = GetIndexTypeObjects(dataGridViewObject.SelectedRows[0].Cells[3].Value.ToString(), cbOfferType);
+                //добавить реализацию хранимой процедуры для заполнения объекта
+
+
+
+                // lbIDObj.Text = dataGridViewObject.SelectedRows[0].Cells[0].Value.ToString();
+                // lbMan.Text = dataGridViewObject.SelectedRows[0].Cells[1].Value.ToString();
+                // tbText.Text = dataGridViewObject.SelectedRows[0].Cells[2].Value.ToString();
+                // tbCiti.Text = dataGridViewObject.SelectedRows[0].Cells[3].Value.ToString();
+                // tbStreet.Text = dataGridViewObject.SelectedRows[0].Cells[4].Value.ToString();
+                // tbHome.Text = dataGridViewObject.SelectedRows[0].Cells[5].Value.ToString();
+                // tbFlat.Text = dataGridViewObject.SelectedRows[0].Cells[6].Value.ToString();
+                // tbText.ReadOnly = tbCiti.ReadOnly = tbStreet.ReadOnly = tbHome.ReadOnly = tbFlat.ReadOnly = true;
+                // btnSaveClient.Enabled = false;
                 tcObjects.TabPages.Remove(tabPageObjSearch);
                 tcObjects.TabPages.Add(tabPageObjectSelect);
-                selectObj = true;
-                GetIndexTypeObjects(dataGridViewObject.SelectedRows[0].Cells[7].Value.ToString());
-
+                // selectObj = true;
+                //  GetIndexTypeObjects(dataGridViewObject.SelectedRows[0].Cells[7].Value.ToString());
+                //
                 if (UserLoginCache.Position == Positions.Manager)
                     btnSelectManger.Visible = false;
                 else
@@ -432,15 +438,14 @@ namespace Work2._1
             }
         }
 
-        private int GetIndexTypeObjects(string t)
+        private int GetIndexTypeObjects(string t, ComboBox cb)
         {
-
-            for (int i = 0; i < cbTipObj.Items.Count; i++)
+            for (int i = 0; i < cb.Items.Count; i++)
             {
-                cbTipObj.SelectedIndex = i;
-                if (cbTipObj.GetItemText(cbTipObj.SelectedItem) == t)
+                cb.SelectedIndex = i;
+                if (cb.GetItemText(cb.SelectedItem) == t)
                 {
-                    cbTipObj.SelectedIndex = i;
+                    cb.SelectedIndex = i;
                     return i;
                 }
             }
